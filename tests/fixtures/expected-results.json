@@ -1,0 +1,764 @@
+[
+  {
+    "results": [
+      {
+        "cols": [
+          "nombre"
+        ],
+        "rows": [
+          {
+            "nombre": "Hugo"
+          },
+          {
+            "nombre": "Luis"
+          },
+          {
+            "nombre": "Jorge"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "fecha"
+        ],
+        "rows": [
+          {
+            "fecha": "2020-12-15"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numVend",
+          "nombre",
+          "apellido",
+          "celular"
+        ],
+        "rows": [
+          {
+            "numVend": 3465,
+            "nombre": "Hugo",
+            "apellido": "Perez",
+            "celular": 6141452367
+          },
+          {
+            "numVend": 4075,
+            "nombre": "Francisco",
+            "apellido": "Gonzalez",
+            "celular": 6142372568
+          },
+          {
+            "numVend": 4079,
+            "nombre": "Luis",
+            "apellido": "Rodiguez",
+            "celular": 6144563125
+          },
+          {
+            "numVend": 5201,
+            "nombre": "Jorge",
+            "apellido": "Hernadez",
+            "celular": 6147539510
+          },
+          {
+            "numVend": 6000,
+            "nombre": "Carlos",
+            "apellido": "Mendoza",
+            "celular": 6140000000
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numCasa",
+          "calle",
+          "numero",
+          "colonea",
+          "ciudad",
+          "precio"
+        ],
+        "rows": [
+          {
+            "numCasa": 1024,
+            "calle": "Orquideas",
+            "numero": 135,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 1200000
+          },
+          {
+            "numCasa": 1027,
+            "calle": "Claveles",
+            "numero": 145,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 1550000
+          },
+          {
+            "numCasa": 1029,
+            "calle": "Claveles",
+            "numero": 148,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 1350000
+          },
+          {
+            "numCasa": 1090,
+            "calle": "Margaritas",
+            "numero": 120,
+            "colonea": "Rosario",
+            "ciudad": "Jimenez",
+            "precio": 1021000
+          },
+          {
+            "numCasa": 1099,
+            "calle": "Margaritas",
+            "numero": 123,
+            "colonea": "Rosario",
+            "ciudad": "Jimenez",
+            "precio": 450000
+          },
+          {
+            "numCasa": 2001,
+            "calle": "Gardenias",
+            "numero": 158,
+            "colonea": "Gloria",
+            "ciudad": "Delicias",
+            "precio": 1500000
+          },
+          {
+            "numCasa": 3001,
+            "calle": "Rosas",
+            "numero": 145,
+            "colonea": "Jaurez",
+            "ciudad": "Juarez",
+            "precio": 450000
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numCasa",
+          "calle",
+          "numero",
+          "colonea",
+          "ciudad",
+          "precio"
+        ],
+        "rows": [
+          {
+            "numCasa": 1024,
+            "calle": "Orquideas",
+            "numero": 135,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 700000
+          },
+          {
+            "numCasa": 1027,
+            "calle": "Claveles",
+            "numero": 145,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 1050000
+          },
+          {
+            "numCasa": 1029,
+            "calle": "Claveles",
+            "numero": 148,
+            "colonea": "Jardines",
+            "ciudad": "Chih",
+            "precio": 850000
+          },
+          {
+            "numCasa": 1090,
+            "calle": "Margaritas",
+            "numero": 120,
+            "colonea": "Rosario",
+            "ciudad": "Jimenez",
+            "precio": 1021000
+          },
+          {
+            "numCasa": 1099,
+            "calle": "Margaritas",
+            "numero": 123,
+            "colonea": "Rosario",
+            "ciudad": "Jimenez",
+            "precio": 450000
+          },
+          {
+            "numCasa": 2001,
+            "calle": "Gardenias",
+            "numero": 158,
+            "colonea": "Gloria",
+            "ciudad": "Delicias",
+            "precio": 1500000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "results": [
+      {
+        "cols": [
+          "numCliente",
+          "nombre",
+          "apellido",
+          "direccion",
+          "telefono",
+          "poblacion"
+        ],
+        "rows": [
+          {
+            "numCliente": 10,
+            "nombre": "Hugo",
+            "apellido": "Gonzalez",
+            "direccion": "F. valladolid 123",
+            "telefono": 61144567890,
+            "poblacion": "Chihuahua"
+          },
+          {
+            "numCliente": 12,
+            "nombre": "Francico",
+            "apellido": "Rodriguez",
+            "direccion": "F. Libertadores 236",
+            "telefono": 6142469873,
+            "poblacion": "Chihuahua"
+          },
+          {
+            "numCliente": 14,
+            "nombre": "Luis",
+            "apellido": "Perez",
+            "direccion": "F. San Miguel  9856",
+            "telefono": 6397854621,
+            "poblacion": "Delicias"
+          },
+          {
+            "numCliente": 16,
+            "nombre": "Pedro",
+            "apellido": "Gonzalez",
+            "direccion": "San Martin 1065",
+            "telefono": 6368946217,
+            "poblacion": "Cuhautemoc"
+          },
+          {
+            "numCliente": 18,
+            "nombre": "Ana",
+            "apellido": "Lopez",
+            "direccion": "Av. Universidad 250",
+            "telefono": 6141234567,
+            "poblacion": "Chihuahua"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "codProducto",
+          "descripcion",
+          "precio"
+        ],
+        "rows": [
+          {
+            "codProducto": 100,
+            "descripcion": "Boiler de paso",
+            "precio": 1500
+          },
+          {
+            "codProducto": 143,
+            "descripcion": "Boiler 15 g",
+            "precio": 2000
+          },
+          {
+            "codProducto": 146,
+            "descripcion": "Calentador 20 g",
+            "precio": 1400
+          },
+          {
+            "codProducto": 150,
+            "descripcion": "Boliler 30 g",
+            "precio": 3000
+          },
+          {
+            "codProducto": 157,
+            "descripcion": "Calentor Espa¤o",
+            "precio": 2530
+          },
+          {
+            "codProducto": 160,
+            "descripcion": "Calentador solar",
+            "precio": 4500
+          }
+        ]
+      },
+      {
+        "cols": [
+          "idVenta",
+          "codProducto",
+          "numCliente",
+          "cantidad"
+        ],
+        "rows": [
+          {
+            "idVenta": 3465,
+            "codProducto": 157,
+            "numCliente": 14,
+            "cantidad": 2
+          },
+          {
+            "idVenta": 3466,
+            "codProducto": 146,
+            "numCliente": 10,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3467,
+            "codProducto": 150,
+            "numCliente": 16,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3468,
+            "codProducto": 100,
+            "numCliente": 14,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3469,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3470,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3471,
+            "codProducto": 100,
+            "numCliente": 10,
+            "cantidad": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "idVenta",
+          "codProducto",
+          "numCliente",
+          "cantidad"
+        ],
+        "rows": [
+          {
+            "idVenta": 3465,
+            "codProducto": 157,
+            "numCliente": 14,
+            "cantidad": 2
+          },
+          {
+            "idVenta": 3466,
+            "codProducto": 146,
+            "numCliente": 10,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3467,
+            "codProducto": 150,
+            "numCliente": 16,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3469,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3470,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "idVenta",
+          "codProducto",
+          "numCliente",
+          "cantidad"
+        ],
+        "rows": [
+          {
+            "idVenta": 3468,
+            "codProducto": 100,
+            "numCliente": 14,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3467,
+            "codProducto": 150,
+            "numCliente": 16,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3465,
+            "codProducto": 157,
+            "numCliente": 14,
+            "cantidad": 2
+          },
+          {
+            "idVenta": 3469,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3470,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "idVenta",
+          "codProducto",
+          "numCliente",
+          "cantidad"
+        ],
+        "rows": [
+          {
+            "idVenta": 3465,
+            "codProducto": 157,
+            "numCliente": 14,
+            "cantidad": 2
+          },
+          {
+            "idVenta": 3466,
+            "codProducto": 146,
+            "numCliente": 10,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3467,
+            "codProducto": 150,
+            "numCliente": 16,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3468,
+            "codProducto": 157,
+            "numCliente": 14,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3469,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          },
+          {
+            "idVenta": 3470,
+            "codProducto": 157,
+            "numCliente": 12,
+            "cantidad": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numCliente",
+          "nombre",
+          "apellido",
+          "direccion",
+          "telefono",
+          "poblacion"
+        ],
+        "rows": [
+          {
+            "numCliente": 10,
+            "nombre": "Hugo",
+            "apellido": "Gonzalez",
+            "direccion": "F. valladolid 123",
+            "telefono": 61144567890,
+            "poblacion": "Chihuahua"
+          },
+          {
+            "numCliente": 12,
+            "nombre": "Francico",
+            "apellido": "Rodriguez",
+            "direccion": "F. Libertadores 236",
+            "telefono": 6142469873,
+            "poblacion": "Chihuahua"
+          },
+          {
+            "numCliente": 14,
+            "nombre": "Luis",
+            "apellido": "Perez",
+            "direccion": "F. San Miguel  9856",
+            "telefono": 6397854621,
+            "poblacion": "Delicias"
+          },
+          {
+            "numCliente": 16,
+            "nombre": "Pedro",
+            "apellido": "Gonzalez",
+            "direccion": "San Martin 1065",
+            "telefono": 555688722,
+            "poblacion": "Cuhautemoc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "results": [
+      {
+        "cols": [
+          "titulo"
+        ],
+        "rows": [
+          {
+            "titulo": "Estructura de Datos"
+          },
+          {
+            "titulo": "camino Critico"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "editorial"
+        ],
+        "rows": [
+          {
+            "editorial": "Pearson"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "cveAutor",
+          "nombre",
+          "apellido",
+          "nacionalidad",
+          "profecion"
+        ],
+        "rows": [
+          {
+            "cveAutor": 1512,
+            "nombre": "Osvaldo",
+            "apellido": "Cairo",
+            "nacionalidad": "MX",
+            "profecion": "Catedratico"
+          },
+          {
+            "cveAutor": 1635,
+            "nombre": "Agustin",
+            "apellido": "Montano",
+            "nacionalidad": "MX",
+            "profecion": "Matematico"
+          },
+          {
+            "cveAutor": 1752,
+            "nombre": "Silvia",
+            "apellido": "Guardati",
+            "nacionalidad": "ESP",
+            "profecion": "Catedratico"
+          },
+          {
+            "cveAutor": 1956,
+            "nombre": "Patrick",
+            "apellido": "Hernry",
+            "nacionalidad": "EUA",
+            "profecion": "Doctor"
+          },
+          {
+            "cveAutor": 2000,
+            "nombre": "Rogers",
+            "apellido": "Cadenhead",
+            "nacionalidad": "EUA",
+            "profecion": "Disenador"
+          },
+          {
+            "cveAutor": 2100,
+            "nombre": "Carlos",
+            "apellido": "Ruiz",
+            "nacionalidad": "ESP",
+            "profecion": "Escritor"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numSerie",
+          "titulo",
+          "tema",
+          "cveAutor",
+          "cveEdit",
+          "pagunas"
+        ],
+        "rows": [
+          {
+            "numSerie": 159753,
+            "titulo": "Estructura de Datos",
+            "tema": "Base de Datos",
+            "cveAutor": 1512,
+            "cveEdit": 1205,
+            "pagunas": 463
+          },
+          {
+            "numSerie": 159850,
+            "titulo": "camino Critico",
+            "tema": "Matematicas",
+            "cveAutor": 1635,
+            "cveEdit": 1207,
+            "pagunas": 231
+          },
+          {
+            "numSerie": 159851,
+            "titulo": "Estructura de Datos",
+            "tema": "Base de Datos",
+            "cveAutor": 1752,
+            "cveEdit": 1211,
+            "pagunas": 568
+          },
+          {
+            "numSerie": 159952,
+            "titulo": "Inteligencia Artificial",
+            "tema": "Sistemas",
+            "cveAutor": 1209,
+            "cveEdit": 1209,
+            "pagunas": 805
+          },
+          {
+            "numSerie": 160001,
+            "titulo": "FrontPage 2000",
+            "tema": "Diseno Web",
+            "cveAutor": 1752,
+            "cveEdit": 2000,
+            "pagunas": 392
+          }
+        ]
+      },
+      {
+        "cols": [
+          "titulo",
+          "editorial"
+        ],
+        "rows": [
+          {
+            "titulo": "Estructura de Datos",
+            "editorial": "McGraw Hill"
+          },
+          {
+            "titulo": "Estructura de Datos",
+            "editorial": "Pearson"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "numSerie",
+          "titulo",
+          "tema",
+          "cveAutor",
+          "cveEdit",
+          "pagunas"
+        ],
+        "rows": [
+          {
+            "numSerie": 159753,
+            "titulo": "Estructura de Datos",
+            "tema": "Sistemas",
+            "cveAutor": 1512,
+            "cveEdit": 1205,
+            "pagunas": 463
+          },
+          {
+            "numSerie": 159850,
+            "titulo": "camino Critico",
+            "tema": "Matematicas",
+            "cveAutor": 1635,
+            "cveEdit": 1207,
+            "pagunas": 231
+          },
+          {
+            "numSerie": 159851,
+            "titulo": "Estructura de Datos",
+            "tema": "Sistemas",
+            "cveAutor": 1752,
+            "cveEdit": 1211,
+            "pagunas": 568
+          },
+          {
+            "numSerie": 159952,
+            "titulo": "Inteligencia Artificial",
+            "tema": "Sistemas",
+            "cveAutor": 1209,
+            "cveEdit": 1209,
+            "pagunas": 805
+          },
+          {
+            "numSerie": 160001,
+            "titulo": "FrontPage 2000",
+            "tema": "Diseno Web",
+            "cveAutor": 1752,
+            "cveEdit": 2000,
+            "pagunas": 392
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "results": [
+      {
+        "cols": ["placaVehiculo", "descripcionVehiuculo", "marca", "modelo"],
+        "rows": [
+          { "placaVehiculo": 16653, "descripcionVehiuculo": "Negro", "marca": "Chevrolet", "modelo": "Spark" },
+          { "placaVehiculo": 16654, "descripcionVehiuculo": "Blanco", "marca": "Chevrolet", "modelo": "Aveo" }
+        ]
+      },
+      {
+        "cols": ["placaVehiculo", "descripcionVehiuculo", "marca", "modelo"],
+        "rows": [
+          { "placaVehiculo": 15554, "descripcionVehiuculo": "Verde", "marca": "Chevrolet", "modelo": "Nova" },
+          { "placaVehiculo": 16653, "descripcionVehiuculo": "Negro", "marca": "Chevrolet", "modelo": "Spark" }
+        ]
+      },
+      {
+        "cols": ["idReparacion", "placaVehiculo", "modelo", "nombreServicio", "fecha_rep", "horas_tra"],
+        "rows": [
+          { "idReparacion": 140, "placaVehiculo": 55667, "modelo": "Mustang", "nombreServicio": "Latoneria", "fecha_rep": "2015-02-09", "horas_tra": 6 },
+          { "idReparacion": 150, "placaVehiculo": 55667, "modelo": "Mustang", "nombreServicio": "Pintura", "fecha_rep": "2015-02-10", "horas_tra": 6 },
+          { "idReparacion": 160, "placaVehiculo": 14456, "modelo": "Lancer", "nombreServicio": "Latoneria", "fecha_rep": "2016-02-09", "horas_tra": 6 },
+          { "idReparacion": 170, "placaVehiculo": 14456, "modelo": "Lancer", "nombreServicio": "Pintura", "fecha_rep": "2016-02-10", "horas_tra": 6 }
+        ]
+      },
+      {
+        "cols": ["placaVehiculo", "nombreServicio", "tipo", "horas_tra"],
+        "rows": [
+          { "placaVehiculo": 15554, "nombreServicio": "Cauchos", "tipo": "Cambio", "horas_tra": 6 },
+          { "placaVehiculo": 15554, "nombreServicio": "Motor", "tipo": "Cambio de Aceite", "horas_tra": 5 },
+          { "placaVehiculo": 15554, "nombreServicio": "Motor", "tipo": "Reparacion", "horas_tra": 7 },
+          { "placaVehiculo": 15554, "nombreServicio": "Mantenimiento", "tipo": "Limpieza", "horas_tra": 3 },
+          { "placaVehiculo": 15554, "nombreServicio": "Latoneria", "tipo": "Externo", "horas_tra": 8 },
+          { "placaVehiculo": 15554, "nombreServicio": "Pintura", "tipo": "Externo", "horas_tra": 5 }
+        ]
+      },
+      {
+        "cols": ["idReparacion", "placaVehiculo", "modelo", "descripcionVehiuculo", "fecha_rep"],
+        "rows": [
+          { "idReparacion": 60, "placaVehiculo": 15554, "modelo": "Nova", "descripcionVehiuculo": "Verde", "fecha_rep": "2016-02-21" },
+          { "idReparacion": 120, "placaVehiculo": 16653, "modelo": "Spark", "descripcionVehiuculo": "Negro", "fecha_rep": "2013-03-07" },
+          { "idReparacion": 150, "placaVehiculo": 55667, "modelo": "Mustang", "descripcionVehiuculo": "Rojo", "fecha_rep": "2015-02-10" },
+          { "idReparacion": 170, "placaVehiculo": 14456, "modelo": "Lancer", "descripcionVehiuculo": "Azul", "fecha_rep": "2016-02-10" }
+        ]
+      }
+    ]
+  }
+]

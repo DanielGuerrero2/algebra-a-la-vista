@@ -1,0 +1,483 @@
+[
+  {
+    "exercises": [
+      {
+        "title": "1 Vendedores de casas con precio mayor a un millón",
+        "expression": "pi nombre (  sigma precio > 1000000 (    Vendedor join Ventas join Casa  ))",
+        "description": "La reunión relaciona a cada vendedor con la casa vendida. Se seleccionan los precios estrictamente mayores a un millón de pesos."
+      },
+      {
+        "title": "2 Fechas de ventas de Hugo Pérez por más de un millón",
+        "expression": "pi fecha (  sigma nombre = 'Hugo' and apellido = 'Perez'    and precio > 1000000 (      Vendedor join Ventas join Casa  ))",
+        "description": "Hugo Pérez vendió la casa 1027 por 1050000 pesos el 15 de diciembre de 2020. La fecha se muestra en el formato AAAA-MM-DD del archivo."
+      },
+      {
+        "title": "3 Alta del alumno en Vendedor",
+        "expression": "Vendedor union {  numVend:number, nombre:string, apellido:string, celular:number  6000, 'Carlos', 'Mendoza', 6140000000}",
+        "description": "Se utiliza la clave 6000, disponible en la base. El celular es un dato de ejemplo."
+      },
+      {
+        "title": "4 Aumento de 500000 pesos a las casas de Chih",
+        "expression": "(Casa - (sigma ciudad = 'Chih' (Casa)))union{  numCasa:number, calle:string, numero:number, colonea:string, ciudad:string,  precio:number  1024, 'Orquideas', 135, 'Jardines', 'Chih', 1200000  1027, 'Claveles', 145, 'Jardines', 'Chih', 1550000  1029, 'Claveles', 148, 'Jardines', 'Chih', 1350000}",
+        "description": "El aumento es de 500000 pesos por casa. Se sustituyen las tres filas de Chih por sus versiones actualizadas; las casas de las otras ciudades conservan su precio."
+      },
+      {
+        "title": "5 Baja de las casas de ciudad Juárez",
+        "expression": "Casa - (  sigma ciudad = 'Juarez' (Casa))",
+        "description": "Se elimina la casa 3001, ubicada en la calle Rosas. El filtro utiliza el atributo ciudad y el valor Juarez tal como aparece en la base."
+      }
+    ],
+    "relations": {
+      "Vendedor": [
+        {
+          "numVend": 3465,
+          "nombre": "Hugo",
+          "apellido": "Perez",
+          "celular": 6141452367
+        },
+        {
+          "numVend": 4075,
+          "nombre": "Francisco",
+          "apellido": "Gonzalez",
+          "celular": 6142372568
+        },
+        {
+          "numVend": 4079,
+          "nombre": "Luis",
+          "apellido": "Rodiguez",
+          "celular": 6144563125
+        },
+        {
+          "numVend": 5201,
+          "nombre": "Jorge",
+          "apellido": "Hernadez",
+          "celular": 6147539510
+        }
+      ],
+      "Casa": [
+        {
+          "numCasa": 1024,
+          "calle": "Orquideas",
+          "numero": 135,
+          "colonea": "Jardines",
+          "ciudad": "Chih",
+          "precio": 700000
+        },
+        {
+          "numCasa": 1027,
+          "calle": "Claveles",
+          "numero": 145,
+          "colonea": "Jardines",
+          "ciudad": "Chih",
+          "precio": 1050000
+        },
+        {
+          "numCasa": 1029,
+          "calle": "Claveles",
+          "numero": 148,
+          "colonea": "Jardines",
+          "ciudad": "Chih",
+          "precio": 850000
+        },
+        {
+          "numCasa": 1090,
+          "calle": "Margaritas",
+          "numero": 120,
+          "colonea": "Rosario",
+          "ciudad": "Jimenez",
+          "precio": 1021000
+        },
+        {
+          "numCasa": 1099,
+          "calle": "Margaritas",
+          "numero": 123,
+          "colonea": "Rosario",
+          "ciudad": "Jimenez",
+          "precio": 450000
+        },
+        {
+          "numCasa": 2001,
+          "calle": "Gardenias",
+          "numero": 158,
+          "colonea": "Gloria",
+          "ciudad": "Delicias",
+          "precio": 1500000
+        },
+        {
+          "numCasa": 3001,
+          "calle": "Rosas",
+          "numero": 145,
+          "colonea": "Jaurez",
+          "ciudad": "Juarez",
+          "precio": 450000
+        }
+      ],
+      "Ventas": [
+        {
+          "numVend": 3465,
+          "numCasa": 1027,
+          "fecha": "2020-12-15"
+        },
+        {
+          "numVend": 4079,
+          "numCasa": 1090,
+          "fecha": "2020-11-13"
+        },
+        {
+          "numVend": 5201,
+          "numCasa": 2001,
+          "fecha": "2020-12-14"
+        },
+        {
+          "numVend": 3465,
+          "numCasa": 1024,
+          "fecha": "2020-12-22"
+        },
+        {
+          "numVend": 4075,
+          "numCasa": 1029,
+          "fecha": "2020-12-14"
+        }
+      ]
+    },
+    "title": "Inmobiliaria"
+  },
+  {
+    "exercises": [
+      {
+        "title": "1 Alta de un cliente",
+        "expression": "Clientes union {  numCliente:number, nombre:string, apellido:string, direccion:string, telefono:number,  poblacion:string  18, 'Ana', 'Lopez', 'Av. Universidad 250', 6141234567, 'Chihuahua'}",
+        "description": "Se incorpora una cliente con una clave que no existe en los datos iniciales."
+      },
+      {
+        "title": "2 Alta de un producto",
+        "expression": "Productos union {  codProducto:number, descripcion:string, precio:number  160, 'Calentador solar', 4500}",
+        "description": "La unión agrega el producto 160 al catálogo."
+      },
+      {
+        "title": "3 Alta de una venta",
+        "expression": "Venta union {  idVenta:number, codProducto:number, numCliente:number, cantidad:number  3471, 100, 10, 1}",
+        "description": "La venta utiliza el cliente 10 y el producto 100, ambos presentes en la base inicial."
+      },
+      {
+        "title": "4 Baja de la venta 3468",
+        "expression": "Venta - (sigma idVenta = 3468 (Venta))",
+        "description": "La selección identifica la venta y la diferencia la retira del resultado."
+      },
+      {
+        "title": "5 Baja de ventas de productos con precio menor que 1500",
+        "expression": "Venta - (  pi idVenta, codProducto, numCliente, cantidad (    sigma precio < 1500 (Venta join Productos)  ))",
+        "description": "Se elimina la venta 3466, del producto 146, que cuesta 1400. Los productos de precio igual a 1500 se conservan."
+      },
+      {
+        "title": "6 Cambio del producto en la venta 3468",
+        "expression": "(Venta - (sigma idVenta = 3468 (Venta)))union{  idVenta:number, codProducto:number, numCliente:number, cantidad:number  3468, 157, 14, 1}",
+        "description": "El producto cambia de 100 a 157. Este ejercicio parte de la tabla inicial, donde la venta 3468 todavía existe."
+      },
+      {
+        "title": "7 Cambio del teléfono de Pedro",
+        "expression": "(Clientes - (sigma nombre = 'Pedro' (Clientes)))union{  numCliente:number, nombre:string, apellido:string, direccion:string, telefono:number,  poblacion:string  16, 'Pedro', 'Gonzalez', 'San Martin 1065', 555688722, 'Cuhautemoc'}",
+        "description": "Se conserva la información del único Pedro registrado y se sustituye su teléfono por 555688722."
+      }
+    ],
+    "relations": {
+      "Clientes": [
+        {
+          "numCliente": 10,
+          "nombre": "Hugo",
+          "apellido": "Gonzalez",
+          "direccion": "F. valladolid 123",
+          "telefono": 61144567890,
+          "poblacion": "Chihuahua"
+        },
+        {
+          "numCliente": 12,
+          "nombre": "Francico",
+          "apellido": "Rodriguez",
+          "direccion": "F. Libertadores 236",
+          "telefono": 6142469873,
+          "poblacion": "Chihuahua"
+        },
+        {
+          "numCliente": 14,
+          "nombre": "Luis",
+          "apellido": "Perez",
+          "direccion": "F. San Miguel  9856",
+          "telefono": 6397854621,
+          "poblacion": "Delicias"
+        },
+        {
+          "numCliente": 16,
+          "nombre": "Pedro",
+          "apellido": "Gonzalez",
+          "direccion": "San Martin 1065",
+          "telefono": 6368946217,
+          "poblacion": "Cuhautemoc"
+        }
+      ],
+      "Productos": [
+        {
+          "codProducto": 100,
+          "descripcion": "Boiler de paso",
+          "precio": 1500
+        },
+        {
+          "codProducto": 143,
+          "descripcion": "Boiler 15 g",
+          "precio": 2000
+        },
+        {
+          "codProducto": 146,
+          "descripcion": "Calentador 20 g",
+          "precio": 1400
+        },
+        {
+          "codProducto": 150,
+          "descripcion": "Boliler 30 g",
+          "precio": 3000
+        },
+        {
+          "codProducto": 157,
+          "descripcion": "Calentor Espa¤o",
+          "precio": 2530
+        }
+      ],
+      "Venta": [
+        {
+          "idVenta": 3465,
+          "codProducto": 157,
+          "numCliente": 14,
+          "cantidad": 2
+        },
+        {
+          "idVenta": 3466,
+          "codProducto": 146,
+          "numCliente": 10,
+          "cantidad": 1
+        },
+        {
+          "idVenta": 3467,
+          "codProducto": 150,
+          "numCliente": 16,
+          "cantidad": 1
+        },
+        {
+          "idVenta": 3468,
+          "codProducto": 100,
+          "numCliente": 14,
+          "cantidad": 1
+        },
+        {
+          "idVenta": 3469,
+          "codProducto": 157,
+          "numCliente": 12,
+          "cantidad": 1
+        },
+        {
+          "idVenta": 3470,
+          "codProducto": 157,
+          "numCliente": 12,
+          "cantidad": 1
+        }
+      ]
+    },
+    "title": "Ventas y clientes"
+  },
+  {
+    "exercises": [
+      {
+        "title": "1 Libros de autores mexicanos",
+        "expression": "pi titulo (  sigma nacionalidad = 'MX' (    Libro join Autor  ))",
+        "description": "La reunión relaciona los libros con sus autores. Osvaldo Cairo y Agustin Montano tienen nacionalidad MX."
+      },
+      {
+        "title": "2 Editoriales mexicanas y autores extranjeros de Sistemas",
+        "expression": "pi editorial (  sigma pais = 'MX' and nacionalidad != 'MX' and tema = 'Sistemas' (    Libro join Autor join Editorial  ))",
+        "description": "Pearson publica el libro de Sistemas de Silvia Guardati, cuya nacionalidad es ESP."
+      },
+      {
+        "title": "3 Alta de un autor extranjero",
+        "expression": "Autor union {  cveAutor:number, nombre:string, apellido:string, nacionalidad:string, profecion:string  2100, 'Carlos', 'Ruiz', 'ESP', 'Escritor'}",
+        "description": "Se propone un autor de nacionalidad española. Su clave 2100 no existe en la tabla inicial."
+      },
+      {
+        "title": "4 Cambio de tema a Base de Datos",
+        "expression": "(  Libro - (sigma numSerie = 159753 or numSerie = 159851 (Libro)))union{  numSerie:number, titulo:string, tema:string, cveAutor:number, cveEdit:number,  pagunas:number  159753, 'Estructura de Datos', 'Base de Datos', 1512, 1205, 463  159851, 'Estructura de Datos', 'Base de Datos', 1752, 1211, 568}",
+        "description": "Los libros 159753 y 159851 cambian a Base de Datos. Se conservan sus demás atributos."
+      },
+      {
+        "title": "5 Libros de autores catedráticos y sus editoriales",
+        "expression": "pi titulo, editorial (  sigma profecion = 'Catedratico' (    Libro join Autor join Editorial  ))",
+        "description": "Se obtienen dos combinaciones de título y editorial. FrontPage 2000 no aparece porque la editorial 2000 no existe en el catálogo."
+      },
+      {
+        "title": "6 Baja de los libros de Rogers",
+        "expression": "Libro - (  pi numSerie, titulo, tema, cveAutor, cveEdit, pagunas (    sigma nombre = 'Rogers' (      Libro join Autor    )  ))",
+        "description": "El resultado conserva los cinco libros. Rogers tiene cveAutor 2000, pero ningún libro está asociado a esa clave. En FrontPage 2000, el valor 2000 corresponde a cveEdit; su autora es Silvia Guardati, con clave 1752."
+      }
+    ],
+    "relations": {
+      "Libro": [
+        {
+          "numSerie": 159753,
+          "titulo": "Estructura de Datos",
+          "tema": "Sistemas",
+          "cveAutor": 1512,
+          "cveEdit": 1205,
+          "pagunas": 463
+        },
+        {
+          "numSerie": 159850,
+          "titulo": "camino Critico",
+          "tema": "Matematicas",
+          "cveAutor": 1635,
+          "cveEdit": 1207,
+          "pagunas": 231
+        },
+        {
+          "numSerie": 159851,
+          "titulo": "Estructura de Datos",
+          "tema": "Sistemas",
+          "cveAutor": 1752,
+          "cveEdit": 1211,
+          "pagunas": 568
+        },
+        {
+          "numSerie": 159952,
+          "titulo": "Inteligencia Artificial",
+          "tema": "Sistemas",
+          "cveAutor": 1209,
+          "cveEdit": 1209,
+          "pagunas": 805
+        },
+        {
+          "numSerie": 160001,
+          "titulo": "FrontPage 2000",
+          "tema": "Diseno Web",
+          "cveAutor": 1752,
+          "cveEdit": 2000,
+          "pagunas": 392
+        }
+      ],
+      "Autor": [
+        {
+          "cveAutor": 1512,
+          "nombre": "Osvaldo",
+          "apellido": "Cairo",
+          "nacionalidad": "MX",
+          "profecion": "Catedratico"
+        },
+        {
+          "cveAutor": 1635,
+          "nombre": "Agustin",
+          "apellido": "Montano",
+          "nacionalidad": "MX",
+          "profecion": "Matematico"
+        },
+        {
+          "cveAutor": 1752,
+          "nombre": "Silvia",
+          "apellido": "Guardati",
+          "nacionalidad": "ESP",
+          "profecion": "Catedratico"
+        },
+        {
+          "cveAutor": 1956,
+          "nombre": "Patrick",
+          "apellido": "Hernry",
+          "nacionalidad": "EUA",
+          "profecion": "Doctor"
+        },
+        {
+          "cveAutor": 2000,
+          "nombre": "Rogers",
+          "apellido": "Cadenhead",
+          "nacionalidad": "EUA",
+          "profecion": "Disenador"
+        }
+      ],
+      "Editorial": [
+        {
+          "cveEdit": 1205,
+          "editorial": "McGraw Hill",
+          "direccion": "Paseo de la Reforma 1015",
+          "ciudad": "Cd Mexico",
+          "pais": "MX"
+        },
+        {
+          "cveEdit": 1207,
+          "editorial": "Trillas",
+          "direccion": "5 de mayo 43-105",
+          "ciudad": "Cd Mexico",
+          "pais": "MX"
+        },
+        {
+          "cveEdit": 1209,
+          "editorial": "Addison-Wesley",
+          "direccion": "Malabia 2363-2",
+          "ciudad": "Buenos Aires",
+          "pais": "ARG"
+        },
+        {
+          "cveEdit": 1211,
+          "editorial": "Pearson",
+          "direccion": "Atlatomulco 505-5",
+          "ciudad": "Cd Mexico",
+          "pais": "MX"
+        }
+      ]
+    },
+    "title": "Biblioteca"
+  },
+  {
+    "title": "Servicios de vehículos",
+    "relations": {
+      "Mecanicos": [
+        { "ciMecanico": 486, "nombreMecanico": "Juan", "cargo": "Llantas" },
+        { "ciMecanico": 399, "nombreMecanico": "Pedro", "cargo": "Motor" },
+        { "ciMecanico": 125, "nombreMecanico": "Federico", "cargo": "Gerente" }
+      ],
+      "Vehiculos": [
+        { "placaVehiculo": 55667, "descripcionVehiuculo": "Rojo", "marca": "Toyota", "modelo": "Mustang" },
+        { "placaVehiculo": 15554, "descripcionVehiuculo": "Verde", "marca": "Chevrolet", "modelo": "Nova" },
+        { "placaVehiculo": 16653, "descripcionVehiuculo": "Negro", "marca": "Chevrolet", "modelo": "Spark" },
+        { "placaVehiculo": 16654, "descripcionVehiuculo": "Blanco", "marca": "Chevrolet", "modelo": "Aveo" },
+        { "placaVehiculo": 14456, "descripcionVehiuculo": "Azul", "marca": "Mitsubishi", "modelo": "Lancer" }
+      ],
+      "Servicios": [
+        { "codigoServicio": 1, "nombreServicio": "Cauchos", "tipo": "Cambio", "precio": 150 },
+        { "codigoServicio": 2, "nombreServicio": "Motor", "tipo": "Cambio de Aceite", "precio": 90 },
+        { "codigoServicio": 3, "nombreServicio": "Motor", "tipo": "Reparacion", "precio": 250 },
+        { "codigoServicio": 4, "nombreServicio": "Mantenimiento", "tipo": "Limpieza", "precio": 60 },
+        { "codigoServicio": 5, "nombreServicio": "Latoneria", "tipo": "Externo", "precio": 200 },
+        { "codigoServicio": 6, "nombreServicio": "Pintura", "tipo": "Externo", "precio": 185 }
+      ],
+      "Reparaciones": [
+        { "idReparacion": 10, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 1, "fecha_rep": "2016-02-16", "horas_tra": 6 },
+        { "idReparacion": 20, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 2, "fecha_rep": "2016-02-17", "horas_tra": 5 },
+        { "idReparacion": 30, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 3, "fecha_rep": "2016-02-18", "horas_tra": 7 },
+        { "idReparacion": 40, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 4, "fecha_rep": "2016-02-19", "horas_tra": 3 },
+        { "idReparacion": 50, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 5, "fecha_rep": "2016-02-20", "horas_tra": 8 },
+        { "idReparacion": 60, "placaVehiculo": 15554, "ciMecanico": 399, "codigoServicio": 6, "fecha_rep": "2016-02-21", "horas_tra": 5 },
+        { "idReparacion": 70, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 1, "fecha_rep": "2013-03-05", "horas_tra": 6 },
+        { "idReparacion": 80, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 2, "fecha_rep": "2014-03-05", "horas_tra": 5 },
+        { "idReparacion": 90, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 3, "fecha_rep": "2015-03-05", "horas_tra": 4 },
+        { "idReparacion": 100, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 4, "fecha_rep": "2016-03-05", "horas_tra": 8 },
+        { "idReparacion": 110, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 5, "fecha_rep": "2013-03-06", "horas_tra": 7 },
+        { "idReparacion": 120, "placaVehiculo": 16653, "ciMecanico": 486, "codigoServicio": 6, "fecha_rep": "2013-03-07", "horas_tra": 6 },
+        { "idReparacion": 130, "placaVehiculo": 16654, "ciMecanico": 486, "codigoServicio": 5, "fecha_rep": "2013-03-08", "horas_tra": 5 },
+        { "idReparacion": 140, "placaVehiculo": 55667, "ciMecanico": 125, "codigoServicio": 5, "fecha_rep": "2015-02-09", "horas_tra": 6 },
+        { "idReparacion": 150, "placaVehiculo": 55667, "ciMecanico": 125, "codigoServicio": 6, "fecha_rep": "2015-02-10", "horas_tra": 6 },
+        { "idReparacion": 160, "placaVehiculo": 14456, "ciMecanico": 125, "codigoServicio": 5, "fecha_rep": "2016-02-09", "horas_tra": 6 },
+        { "idReparacion": 170, "placaVehiculo": 14456, "ciMecanico": 125, "codigoServicio": 6, "fecha_rep": "2016-02-10", "horas_tra": 6 }
+      ]
+    },
+    "exercises": [
+      { "title": "1 Chevrolet reparados en marzo de 2013", "expression": "pi placaVehiculo, descripcionVehiuculo, marca, modelo (sigma marca = 'Chevrolet' and fecha_rep >= '2013-03-01' and fecha_rep < '2013-04-01' (Vehiculos join Reparaciones))", "description": "Filtra marzo completo mediante un intervalo de fechas; proyecta las columnas del vehículo para eliminar reparaciones repetidas." },
+      { "title": "2 Vehículos que recibieron todos los servicios", "expression": "pi placaVehiculo, descripcionVehiuculo, marca, modelo (Vehiculos join ((pi placaVehiculo, codigoServicio (Reparaciones)) divide (pi codigoServicio (Servicios))))", "description": "La división compara cada placa con todos los códigos del catálogo de servicios. Cada ejercicio parte de la base original." },
+      { "title": "3 Reparaciones realizadas por Federico", "expression": "pi idReparacion, placaVehiculo, modelo, nombreServicio, fecha_rep, horas_tra (sigma nombreMecanico = 'Federico' (Mecanicos join Reparaciones join Vehiculos join Servicios))", "description": "Relaciona mecánicos, reparaciones, vehículos y servicios antes de filtrar a Federico." },
+      { "title": "4 Servicios y duración del vehículo 15554", "expression": "pi placaVehiculo, nombreServicio, tipo, horas_tra (sigma placaVehiculo = 15554 (Reparaciones join Servicios))", "description": "La columna tipo distingue los dos servicios con nombre Motor; horas_tra expresa la duración." },
+      { "title": "5 Servicios de pintura y color del vehículo", "expression": "pi idReparacion, placaVehiculo, modelo, descripcionVehiuculo, fecha_rep (sigma nombreServicio = 'Pintura' (Reparaciones join Servicios join Vehiculos))", "description": "descripcionVehiuculo contiene el color y conserva la escritura de la tabla original." }
+    ]
+  }
+]

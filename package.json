@@ -1,0 +1,26 @@
+{
+  "name": "algebra-a-la-vista",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node tests/test-engine.cjs && node tests/test-regressions.cjs && node tests/test-builder.cjs && node --test tests/test-session.mjs && node --test tests/test-operations.mjs && node --test tests/test-guide.mjs tests/test-query-feedback.mjs tests/test-completion.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.5.0",
+    "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "preact": "^10.26.4",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.1",
+    "@tailwindcss/vite": "^4.1.0",
+    "tailwindcss": "^4.1.0",
+    "vite": "^7.0.0"
+  }
+}
