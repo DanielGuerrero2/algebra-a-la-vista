@@ -741,3 +741,45 @@
   .playground-query-actions > div:first-child { margin-right: auto; }
   .playground-query-actions .btn[aria-label] { padding-inline: 5px; }
 }
+
+/* Keep the primary actions and reading area useful on narrow screens. */
+@media (max-width: 700px) {
+  .landing-nav { flex-wrap: nowrap; }
+  .landing-nav-actions { display: flex; width: auto; flex: 0 0 auto; }
+  .landing-nav-actions a { padding-inline: 12px; }
+  .landing-brand { min-width: 0; font-size: 14px; }
+  .landing-intro h1 { font-size: clamp(32px, 8vw, 44px); overflow-wrap: anywhere; }
+  .landing-hero-identity { padding: clamp(18px, 5vw, 28px); }
+  .landing-hero-actions { gap: 8px 16px; }
+  .landing-hero-content { min-height: 220px; }
+  .landing-illustration { width: min(58%, 260px); }
+  .landing-demo-section { padding-block: 36px; }
+  .landing-table-wrap { overflow-x: auto; }
+  .landing-table { min-width: 280px; }
+}
+@media (max-width: 639px) {
+  .lab-header { justify-content: flex-start; }
+  .lab-header > div { width: 100%; }
+  .lab-header > div > span.truncate { min-width: 0; }
+  .exercise-brief { gap: 10px; }
+  .exercise-brief > div:last-child { flex-wrap: wrap; }
+  .guide-invitation { gap: 4px; padding: 10px 12px; }
+  .guide-invitation > div { gap: 8px; }
+  .guide-invitation .btn { min-height: 40px; }
+  .lab-guide-art { width: 64px; }
+  .query-panel > div:has(> div[aria-label="Modo de consulta"]) { gap: 8px; padding: 10px 12px; }
+  .query-panel > div:has(> div[aria-label="Modo de consulta"]) > div:first-child { min-width: 0; }
+  .query-panel > div:has(> div[aria-label="Modo de consulta"]) > div:first-child button { white-space: normal; line-height: 1.2; }
+  .operation-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .result-panel .panel-heading { padding-inline: 12px; }
+}
+@media (max-width: 380px) {
+  .landing-brand { font-size: 12px; }
+  .landing-nav-actions a { padding-inline: 8px; }
+  .landing-hero-actions .btn { width: 100%; }
+  .landing-facts { gap: 10px 18px; }
+  .lab-workspace { padding-inline: 8px; }
+  .exercise-brief h1 { font-size: 21px; }
+  .guide-invitation p { font-size: 11px; }
+  .lab-guide-art { width: 52px; }
+}

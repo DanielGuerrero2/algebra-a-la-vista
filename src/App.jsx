@@ -58,7 +58,7 @@ export default function App() {
     <div class="flex min-w-0 flex-1 flex-col">
       <header inert={menu || undefined} class="lab-header flex h-[72px] shrink-0 items-center justify-between gap-3 border-b border-line bg-white px-4 sm:px-6 xl:px-8">
 
-        <div class="ml-auto flex min-w-0 items-center gap-3"><Button variant="ghost" aria-label="Abrir navegación" aria-controls="lab-navigation" aria-expanded={menu} className="lg:hidden" onClick={() => setMenu(true)}><Icon name="menu"/></Button><span class="hidden text-xs text-muted sm:block">Laboratorio</span><span class="hidden text-line sm:block">/</span><span class="truncate text-xs font-semibold">{w.data.title}</span><span class="hidden rounded-full border border-brand/15 bg-soft px-2 py-0.5 text-[9px] text-brand xl:block">Álgebra relacional</span></div>
+        <div class="flex min-w-0 items-center gap-3 lg:ml-auto"><Button variant="ghost" aria-label="Abrir navegación" aria-controls="lab-navigation" aria-expanded={menu} className="lg:hidden" onClick={() => setMenu(true)}><Icon name="menu"/></Button><span class="hidden text-xs text-muted sm:block">Laboratorio</span><span class="hidden text-line sm:block">/</span><span class="truncate text-xs font-semibold">{w.data.title}</span><span class="hidden rounded-full border border-brand/15 bg-soft px-2 py-0.5 text-[9px] text-brand xl:block">Álgebra relacional</span></div>
       </header>
       <main id="workspace" tabIndex={-1} inert={menu || undefined} class="lab-workspace min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6 xl:px-8 xl:py-7">
         <div class="mx-auto max-w-[1480px]">
