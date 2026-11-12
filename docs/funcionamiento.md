@@ -105,6 +105,30 @@ Las rutas de esta tabla son relativas a la raíz del proyecto.
 
 ## 4. Datos y ejercicios
 
+### Playground con archivos propios
+
+La ruta `#playground` abre una sección independiente del laboratorio. Cada archivo CSV o JSON válido crea una tabla cuyo nombre es el del archivo sin extensión. Se pueden cargar varias tablas y consultarlas juntas con el constructor visual o el editor de símbolos. Su pantalla es un espacio de trabajo continuo: barra de importación arriba, tablas en una barra lateral estrecha a la izquierda y, a la derecha, editor amplio arriba y resultados debajo. En pantallas estrechas, estas zonas se apilan en el mismo orden.
+
+Un CSV necesita encabezados en la primera fila y al menos una fila de datos. Admite comillas dobles, comas y saltos de línea entrecomillados. Una columna CSV se interpreta como numérica si todos sus valores son números finitos; de lo contrario se interpreta como texto. Un JSON debe ser un arreglo de objetos, por ejemplo `[{"id":1,"nombre":"Ana"}]`.
+
+Para varias tablas en un solo archivo, se admite un TXT de grupo con sintaxis tipo QueryRelax:
+
+```text
+group: BIBLIOTECA
+Libro = {
+id:number, titulo:string, autor:number
+1, 'Estructura de Datos', 10
+}
+Autor = {
+autor:number, nombre:string
+10, Ana
+}
+```
+
+Cada relación declara sus columnas y tipos (`number` o `string`, sin distinguir mayúsculas). Las filas de texto pueden ir entre comillas simples o sin ellas; las comillas son necesarias si el valor contiene comas. Se permiten comentarios de línea iniciados con `--`. El archivo se valida completo antes de agregar sus tablas. Todas las filas deben tener las mismas columnas y cada columna debe mantener su tipo (`string` o `number`). No se aceptan celdas vacías, nombres fuera del patrón `[A-Za-z_][A-Za-z_0-9]*`, archivos de más de 2 MB ni tablas de más de 20 000 filas.
+
+Los archivos cargados permanecen solo en la memoria de la pestaña. Al salir del playground o recargar la página, se eliminan. No usan las claves de almacenamiento del laboratorio ni modifican las bases de ejemplo.
+
 Cada base contiene `title`, `relations` y `exercises`. Las relaciones son arreglos de objetos JavaScript. Cada objeto es una fila y cada propiedad es una columna.
 
 Ejemplo ilustrativo de estructura:

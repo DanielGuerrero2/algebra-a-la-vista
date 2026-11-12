@@ -4,18 +4,19 @@ Esta guía define el aspecto de las ilustraciones de **Álgebra a la vista**. De
 
 ## Referencia principal
 
-La referencia aprobada es [`assets/originals/brand/brand-icon-cartoon.png`](../assets/originals/brand/brand-icon-cartoon.png), utilizada como fuente de la ilustración principal de la portada. Aunque el nombre del archivo contiene «icon», su función es ilustrativa.
+La referencia aprobada es el [delfín alegre en estilo cómic](../assets/originals/illustrations/ilustracion-delfin-datos-comic.png). La [ilustración de portada](../assets/originals/brand/brand-icon-cartoon-comic.png) aplica el mismo acabado a la base de datos y las tablas conectadas. Aunque su nombre contiene «icon», su función es ilustrativa.
 
-![Referencia del estilo cartoon](../assets/originals/brand/brand-icon-cartoon.png)
+![Referencia del estilo cómic](../assets/originals/illustrations/ilustracion-delfin-datos-comic.png)
 
-El estilo vigente es la versión cartoon. La imagen anterior `brand-icon-v2.png`, de apariencia más realista, se conserva como antecedente y no es la referencia para nuevas ilustraciones.
+El estilo vigente es el cómic limpio, con carisma moderado y expresiones alegres. Se conservan únicamente las fuentes de las imágenes integradas en la página y sus exportaciones optimizadas.
 
 ## Dirección visual
 
-- **Cartoon cuidado y profesional:** cercano, claro y apropiado para un laboratorio educativo.
+- **Cómic cuidado y profesional:** cercano, claro y apropiado para un laboratorio educativo.
 - Formas redondeadas, siluetas reconocibles y una ligera asimetría que aporte naturalidad.
-- Contornos limpios en verde oscuro, con grosor consistente entre objetos.
-- Volumen ilustrado mediante pocas zonas de sombra y reflejos amplios y suaves.
+- Contornos de tinta en verde oscuro, con variaciones de grosor discretas y coherentes entre objetos.
+- Volumen mediante pocas zonas de sombra, reflejos contenidos y tramas de puntos localizadas; evitar grano sobre toda la imagen.
+- Conservar las miradas abiertas y las sonrisas alegres de los personajes existentes, sin exagerar sus gestos.
 - Detalle suficiente para dar personalidad, sin pequeñas piezas que desaparezcan en móvil.
 - Conservar la misma perspectiva, tratamiento de luz y nivel de detalle de la referencia.
 
@@ -43,6 +44,7 @@ Representar conceptos de fundamentos de bases de datos: tablas, registros, relac
 - Usar fondo transparente para ilustraciones integradas en la página.
 - Evitar texto incrustado, marcas de agua y elementos decorativos sin función.
 - Si la imagen explica una operación, comprobar que las relaciones o transformaciones representadas sean correctas.
+- En la lupa, la fila dorada debe encajar entre las líneas de la tabla. Mantener la cuadrícula alineada dentro y fuera del cristal, sin fragmentos verdes sobre el marco marfil ni deformaciones ópticas.
 
 ## Integración en la página
 
@@ -52,9 +54,11 @@ Las ilustraciones acompañan el contenido, con proporciones naturales y espacio 
 
 Guardar las imágenes fuente en `assets/originals/illustrations/` y sus versiones optimizadas en `public/assets/illustrations/`, con nombres descriptivos, por ejemplo `ilustracion-relaciones.webp`. Conservar el fondo transparente y optimizar el peso antes de publicar. Añadir texto alternativo que describa su función; usar `alt=""` cuando sea exclusivamente decorativa.
 
+Las fuentes del rediseño llevan el sufijo `-comic.png`; las exportaciones conservan las rutas y dimensiones existentes para mantener la integración. El emblema pequeño procede de `assets/originals/brand/brand-icon-transformacion-comic.png`. Los prompts e iteraciones de la herramienta integrada de generación de imágenes están registrados en [`assets/originals/comic-prompts.json`](../assets/originals/comic-prompts.json).
+
 ## Plantilla de prompt
 
-> Ilustración cartoon profesional para Álgebra a la vista sobre [concepto de bases de datos]. Usar la imagen aprobada como referencia visual: formas redondeadas, contornos verde oscuro limpios, volumen ilustrado, sombras suaves y reflejos amplios. Paleta verde esmeralda, menta, marfil y pequeños acentos dorados. Composición clara y cohesionada, con margen exterior y fondo realmente transparente. Sin texto, marcas de agua, caras, fotografía ni materiales fotorrealistas. Mantener legibilidad en móvil y coherencia con la referencia.
+> Ilustración de cómic profesional para Álgebra a la vista sobre [concepto de bases de datos]. Usar el delfín aprobado como referencia de acabado: formas claras, contornos de tinta verde oscuro, sombras simples y tramas de puntos localizadas. Paleta verde esmeralda, menta, marfil y acentos dorados. Conservar los sujetos y la composición del original; en personajes existentes, mantener miradas abiertas y sonrisas alegres con carisma moderado. No añadir personajes o caras a los objetos. Margen exterior y fondo realmente transparente. Sin texto, marcas de agua, fotografía, brillos 3D ni grano generalizado. Mantener legibilidad en móvil.
 
 ## Revisión antes de integrar
 

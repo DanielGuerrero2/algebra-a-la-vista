@@ -1,6 +1,10 @@
 # Brand icon
 
-Landing illustration source: `assets/originals/brand/brand-icon-cartoon.png`. Generated and edited using the built-in image generation tool, with a transparent background. The optimized version used by the landing page is `public/assets/brand/brand-icon-cartoon-880.webp`. The header and laboratory sidebar use the dedicated icon `public/assets/brand/brand-icon-256.png`; the browser favicon uses its 64 px export. Its source is `assets/originals/brand/brand-icon-transformacion.png`. The mark condenses a selection operation: a highlighted row leaves the ivory source table and enters a smaller mint result table along a gold arrow. It has the same dark contours and cel shading as the current illustrations, with fewer shapes for legibility at favicon size. The earlier rendered variant remains available as `assets/originals/brand/brand-icon-v2.png`.
+## Rediseño de cómic · 11 de noviembre de 2026
+
+La portada utiliza `assets/originals/brand/brand-icon-cartoon-comic.png`, y el emblema del encabezado y favicon procede de `assets/originals/brand/brand-icon-transformacion-comic.png`. Se conservan las rutas públicas y sus dimensiones: portada WebP de 880 × 880, emblema PNG de 256 × 256 y favicon PNG de 64 × 64. El acabado sigue al delfín alegre aprobado: contornos oscuros, verde esmeralda y menta, marfil, dorado y tramas discretas. El emblema simplifica las tramas para conservar legibilidad en pequeño; los prompts están en `assets/originals/comic-prompts.json`.
+
+La exportación de portada es `public/assets/brand/brand-icon-cartoon-880.webp`. El encabezado y la barra lateral usan `public/assets/brand/brand-icon-256.png`; el favicon utiliza la variante de 64 px. El emblema representa una selección: una fila resaltada pasa de la tabla original a una tabla de resultados más pequeña mediante una flecha dorada.
 
 ## Icon concept
 
