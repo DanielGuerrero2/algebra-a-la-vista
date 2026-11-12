@@ -27,7 +27,7 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
   ];
 
   return <div class="visual-guide">
-    <div class="guide-intro"><div><p class="eyebrow">APRENDE CON UN EJEMPLO · {data.title}</p><h3>De una tabla a una respuesta.</h3><p>Una consulta transforma una tabla en otra. Sigue el recorrido y mira qué cambia en cada paso.</p></div><span class="guide-intro-mark" aria-hidden="true">σ<span>→</span>π</span></div>
+    <div class="guide-intro"><div><p class="eyebrow">GUÍA VISUAL · {data.title}</p><h3>De una tabla a una respuesta.</h3><p>Una consulta transforma una tabla en otra. Sigue el recorrido y observa qué cambia en cada paso.</p></div><span class="guide-intro-mark" aria-hidden="true">σ<span>→</span>π</span></div>
     <div class="guide-goal"><Icon name="table" size={20}/><p><strong>Queremos…</strong> {example.goal}</p></div>
     <div class="guide-flow" role="group" aria-label="Pasos del ejemplo">
       {example.steps.map((item, index) => <button key={item.expression} type="button" aria-pressed={selected === index} aria-controls={`${id}-preview`} onClick={() => setSelected(index)}><span class="guide-step-symbol" aria-hidden="true">{['▦', 'σ', 'π'][index]}</span><span><small>0{index + 1}</small><strong>{item.title}</strong><span>{results[index].rows.length} filas · {results[index].cols.length} columnas</span></span><Icon name="arrow"/></button>)}
@@ -43,7 +43,7 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
       </div>
       <div class="guide-result-heading"><span>RESULTADO DE ESTE PASO</span><strong>{result.rows.length} filas · {result.cols.length} columnas</strong></div>
       <DataTable relation={result} label={`Paso ${selected + 1} de la guía: ${step.title}`} compact/>
-      <div class="guide-preview-footer"><span>Datos reales de la base</span><Button variant="ghost" onClick={() => setSelected((selected + 1) % example.steps.length)}>{selected === 2 ? 'Volver al inicio' : 'Siguiente paso'} <Icon name={selected === 2 ? 'reset' : 'arrow'}/></Button></div>
+      <div class="guide-preview-footer"><span>Ejemplo con datos de la base</span><Button variant="ghost" onClick={() => setSelected((selected + 1) % example.steps.length)}>{selected === example.steps.length - 1 ? 'Volver al inicio' : 'Siguiente paso'} <Icon name={selected === example.steps.length - 1 ? 'reset' : 'arrow'}/></Button></div>
     </div>
     <p class="guide-reading"><strong>Lee de adentro hacia afuera:</strong> primero la tabla entre paréntesis, después σ y al final π. Cada operación usa el resultado de la anterior.</p>
 

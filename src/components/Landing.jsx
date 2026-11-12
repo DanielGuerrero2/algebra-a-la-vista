@@ -16,24 +16,26 @@ export function Landing() {
     <header class="landing-nav">
       <a class="landing-brand" href="#" aria-label="Álgebra a la vista, inicio"><BrandIcon className="landing-mark"/>Álgebra a la vista<span class="landing-dot">.</span></a>
       <nav class="landing-nav-actions" aria-label="Navegación principal">
-        <Button asChild variant="outline" size="sm"><a href="#guia">Ver la guía visual <span aria-hidden="true">↓</span></a></Button>
-        <Button asChild size="sm"><a href="#laboratorio">Entrar al laboratorio <span aria-hidden="true">↗</span></a></Button>
+        <Button asChild variant="outline" size="sm"><a href="#playground">Playground</a></Button>
+
       </nav>
     </header>
     <main id="inicio" tabIndex={-1}>
       <section class="landing-hero" aria-labelledby="landing-title">
         <div class="landing-intro">
           <div class="landing-hero-identity">
+            <p class="landing-chapter">01 / EL LABORATORIO ESTÁ ABIERTO</p>
             <h1 id="landing-title">De los símbolos<br/>a los <em>resultados.</em></h1>
+            <Badge variant="outline" className="landing-hero-badge"><span class="size-1.5 rounded-full bg-primary" aria-hidden="true"/> Tu espacio de álgebra relacional</Badge>
+            <p class="landing-description">El álgebra relacional se entiende mejor cuando puedes verla. Construye consultas, explora cada operación y descubre qué pasa con tus datos.</p>
+            <div class="landing-hero-actions"><Button asChild size="lg"><a href="#laboratorio">Entrar al laboratorio <span aria-hidden="true">↗</span></a></Button><a href="#guia" class="landing-guide-link">Primero, ver la guía <span aria-hidden="true">↓</span></a></div>
+            <p class="landing-note">Sin registro. A tu ritmo. Desde tu navegador.</p>
+            <div class="landing-facts"><span><strong>{exerciseTotal}</strong> ejercicios guiados</span><span><strong>{datasets.length}</strong> bases de ejemplo</span></div>
+          </div>
+          <div class="landing-hero-content">
             <figure class="landing-illustration">
               <img src={`${import.meta.env.BASE_URL}assets/brand/brand-icon-cartoon-880.webp`} width="880" height="880" alt="Ilustración de una base de datos verde con dos tablas conectadas por un enlace dorado." fetchPriority="high"/>
             </figure>
-            <Badge variant="outline"><span class="size-1.5 rounded-full bg-primary" aria-hidden="true"/> Tu espacio de álgebra relacional</Badge>
-          </div>
-          <div class="landing-hero-content">
-            <p class="landing-description">El álgebra relacional se entiende mejor cuando puedes verla. Construye consultas, explora cada operación y descubre qué pasa con tus datos.</p>
-            <p class="landing-note">Sin registro. A tu ritmo. Desde tu navegador.</p>
-            <div class="landing-facts"><span><strong>{exerciseTotal}</strong> ejercicios guiados</span><span><strong>{datasets.length}</strong> bases de ejemplo</span></div>
           </div>
         </div>
       </section>
@@ -78,7 +80,7 @@ export function Landing() {
       </div>
       <div class="landing-footer-bottom">
         <span>Álgebra a la vista · Aprende, prueba, comprende.</span>
-        <nav aria-label="Enlaces del pie de página"><a href="#inicio">Inicio</a><a href="#guia">Guía visual</a><a href="#laboratorio">Laboratorio</a></nav>
+        <nav aria-label="Enlaces del pie de página"><a href="#inicio">Inicio</a><a href="#guia">Guía visual</a><a href="#laboratorio">Laboratorio</a><a href="#playground">Playground</a></nav>
         <span>Tu progreso se guarda en este navegador.</span>
       </div>
     </footer>
