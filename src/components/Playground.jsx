@@ -94,6 +94,7 @@ export function Playground() {
   }
 
   return <div class="playground-shell">
+    <input type="file" accept=".csv,.json,.txt" multiple hidden ref={fileInput} onChange={importFiles}/>
     <a href="#playground-main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-4">Ir al playground</a>
     <header class="playground-toolbar">
       <div class="playground-toolbar-brand"><a href="#inicio" aria-label="Álgebra a la vista, inicio"><BrandIcon className="playground-toolbar-mark"/>Álgebra a la vista<span class="text-amber-500">.</span></a><span class="playground-toolbar-divider"/><strong>Playground</strong></div>

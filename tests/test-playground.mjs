@@ -2,6 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseTableFile, parseTableGroup } from '../src/core/playground-import.js';
 import { run } from '../src/core/engine.js';
+import { readFileSync } from 'node:fs';
+
+test('el playground conecta el selector de archivos con la importación', () => {
+  const component = readFileSync(new URL('../src/components/Playground.jsx', import.meta.url), 'utf8');
+  assert.match(component, /<input\b[^>]*type="file"[^>]*ref=\{fileInput\}[^>]*onChange=\{importFiles\}/);
+});
 
 test('importa CSV y JSON como relaciones consultables', () => {
   const csv = parseTableFile('Personas.csv', 'id,nombre\n1,Ana\n2,"Luis, Jr."\n');
