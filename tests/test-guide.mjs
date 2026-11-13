@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { run } from '../src/core/engine.js';
-import { GUIDE_EXAMPLES } from '../src/data/guide.js';
+import { GUIDE_EXAMPLES, GUIDE_OPERATIONS } from '../src/data/guide.js';
 
 const datasets = JSON.parse(readFileSync(new URL('../src/data/datasets.json', import.meta.url)));
 const expected = [
@@ -26,4 +26,24 @@ test('la guía muestra transformaciones reales y resultados correctos en las cua
     assert.ok(run(example.join, datasets[index].relations).rows.length > 0);
   });
   assert.equal(JSON.stringify(datasets), original, 'La demostración conserva las bases originales');
+});
+
+test('cada base ofrece cinco ejemplos binarios válidos con resultados visibles', () => {
+  assert.equal(GUIDE_OPERATIONS.length, datasets.length);
+  GUIDE_OPERATIONS.forEach((operations, index) => {
+    assert.deepEqual(operations.map(({ symbol }) => symbol), ['⋈', '∪', '−', '∩', '÷']);
+    operations.forEach(({ symbol, expression, inputs, text }) => {
+      assert.ok(text);
+      assert.equal(inputs.length, 2);
+      const [left, right] = inputs.map(input => run(input, datasets[index].relations));
+      const result = run(expression, datasets[index].relations);
+      assert.ok(left.rows.length > 0 && right.rows.length > 0, `${index} ${symbol}: entradas visibles`);
+      assert.ok(result.rows.length > 0, `${index} ${symbol}: resultado visible`);
+      if (['∪', '−', '∩'].includes(symbol)) {
+        assert.deepEqual(left.cols, right.cols, `${index} ${symbol}: esquemas compatibles`);
+        assert.deepEqual(left.types, right.types, `${index} ${symbol}: tipos compatibles`);
+      }
+      if (symbol === '÷') assert.ok(right.rows.length > 1, `${index}: el divisor muestra el sentido de «todos»`);
+    });
+  });
 });

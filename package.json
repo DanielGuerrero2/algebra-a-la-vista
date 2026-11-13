@@ -7,7 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "node tests/test-engine.cjs && node tests/test-regressions.cjs && node tests/test-builder.cjs && node --test tests/test-session.mjs && node --test tests/test-operations.mjs && node --test tests/test-guide.mjs tests/test-query-feedback.mjs tests/test-completion.mjs tests/test-playground.mjs"
+    "test": "node tests/test-engine.cjs && node tests/test-regressions.cjs && node tests/test-builder.cjs && node --test tests/test-session.mjs && node --test tests/test-operations.mjs tests/test-relax.mjs && node --test tests/test-guide.mjs tests/test-query-feedback.mjs tests/test-completion.mjs tests/test-playground.mjs tests/test-playground-storage.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.5.0",
