@@ -4,8 +4,8 @@ import { diagnoseExpression } from '../core/query-feedback.js';
 import { Button } from './ui.jsx';
 
 export function Expression({ text, tables }) {
-  return text.split(/('(?:[^']|'')*(?:'|$)|\b-?\d+(?:\.\d+)?\b|[σπ⋈∪∩×−÷↦]|\b[A-Za-z_]\w*\b)/g).map((token, index) => {
-    const color = token.startsWith("'") ? 'text-teal-700' : /^[σπ⋈∪∩×−÷↦]$/.test(token) ? 'font-bold text-amber-700' : /^-?\d/.test(token) ? 'text-blue-700' : Object.hasOwn(tables, token) ? 'font-bold text-brand' : '';
+  return text.split(/('(?:[^']|'')*(?:'|$)|\b-?\d+(?:\.\d+)?\b|[σπρ⋈∪∩×−÷⟕⟖⟗⋉⋊▷↦]|\b[A-Za-z_]\w*\b)/g).map((token, index) => {
+    const color = token.startsWith("'") ? 'text-teal-700' : /^[σπρ⋈∪∩×−÷⟕⟖⟗⋉⋊▷↦]$/.test(token) ? 'font-bold text-amber-700' : /^-?\d/.test(token) ? 'text-blue-700' : Object.hasOwn(tables, token) ? 'font-bold text-brand' : '';
     return <span key={index} class={color}>{token}</span>;
   });
 }
@@ -31,16 +31,16 @@ export function Editor({ expression, tables, onEdit, onExecute, executionError, 
   }
   function insert(symbol) {
     const element = input.current, start = element.selectionStart, end = element.selectionEnd;
-    const value = /[σπ⋈∪−∩÷]/.test(symbol) ? `${symbol} ` : symbol;
+    const value = /[σπρ⋈∪−∩÷⟕⟖⟗⋉⋊▷]/.test(symbol) ? `${symbol} ` : symbol;
     caret.current = [start + value.length, start + value.length];
     onEdit(expression.slice(0, start) + value + expression.slice(end));
     element.focus();
   }
   return <div class="flex flex-1 flex-col">
     <div class="flex flex-wrap items-center gap-1.5 border-b border-line bg-canvas/50 px-5 py-3" aria-label="Insertar símbolo">
-      {['σ', 'π', '⋈', '÷', '∪', '−', '∩', '(', ')', "'"].map(symbol => <button key={symbol} class="math flex size-9 items-center justify-center rounded-md border border-line bg-white text-xl hover:border-ring/40 hover:bg-accent" onClick={() => insert(symbol)} aria-label={`Insertar ${symbol}`}>{symbol}</button>)}
+      {['σ', 'π', 'ρ', '⋈', '⟕', '⟖', '⟗', '⋉', '⋊', '▷', '÷', '∪', '−', '∩', '(', ')', "'"].map(symbol => <button key={symbol} class="math flex size-9 items-center justify-center rounded-md border border-line bg-white text-xl hover:border-ring/40 hover:bg-accent" onClick={() => insert(symbol)} aria-label={`Insertar ${symbol}`}>{symbol}</button>)}
     </div>
-    <div class="px-5 pt-4"><p class="text-xs font-medium">Escribe con símbolos, piensa en tablas.</p><p id="editor-help" class="mt-1 text-[11px] text-muted">Sintaxis: σ condición (Tabla) · π columna, otraColumna (Tabla) · relación ÷ divisor. También puedes escribir sigma, pi, join o divide.</p></div>
+    <div class="px-5 pt-4"><p class="text-xs font-medium">Escribe con símbolos, piensa en tablas.</p><p id="editor-help" class="mt-1 text-[11px] text-muted">Sintaxis: σ condición (Tabla) · π columnas (Tabla) · ρ alias (Tabla) · relación ⟕ otra. Puedes escribir sigma, pi, rho, join o leftjoin.</p></div>
     <div class="code-editor relative mx-5 my-4 min-h-64 overflow-hidden rounded-lg border border-line bg-[#f9fbf5] focus-within:ring-2 focus-within:ring-brand/25">
       <pre ref={overlay} aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden"><Expression text={expression + '\n'} tables={tables}/></pre>
       <textarea ref={input} id="editor" aria-label="Expresión de álgebra relacional" aria-invalid={!!diagnostic} aria-describedby="editor-help editor-validation" value={expression} onInput={change} spellcheck={false} autoCapitalize="off" autoComplete="off" onScroll={e => { overlay.current.scrollTop = e.currentTarget.scrollTop; overlay.current.scrollLeft = e.currentTarget.scrollLeft; }} onKeyDown={e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); onExecute(); } }} class="relative block min-h-64 w-full resize-y bg-transparent caret-brand outline-none"/>

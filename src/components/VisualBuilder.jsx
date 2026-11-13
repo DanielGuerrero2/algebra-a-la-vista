@@ -8,6 +8,15 @@ const operations = {
   select: ['σ', 'Selección', 'Conserva las filas que cumplen una condición.'],
   project: ['π', 'Proyección', 'Elige columnas y elimina las filas repetidas.'],
   join: ['⋈', 'Join natural', 'Conecta relaciones por sus columnas en común.'],
+  renameRelation: ['ρ', 'Renombrar relación', 'Da un alias a la relación y califica sus columnas.'],
+  renameColumn: ['ρ', 'Renombrar columna', 'Cambia el nombre de una columna.'],
+  thetaJoin: ['⋈', 'Join con condición', 'Combina filas que cumplen una condición explícita.'],
+  leftJoin: ['⟕', 'Join externo izquierdo', 'Conserva todas las filas de la relación actual.'],
+  rightJoin: ['⟖', 'Join externo derecho', 'Conserva todas las filas de la segunda relación.'],
+  fullJoin: ['⟗', 'Join externo completo', 'Conserva las filas sin pareja de ambas relaciones.'],
+  semiJoin: ['⋉', 'Semijoin izquierdo', 'Conserva filas de la relación actual que tienen pareja.'],
+  rightSemiJoin: ['⋊', 'Semijoin derecho', 'Conserva filas de la segunda relación que tienen pareja.'],
+  antiJoin: ['▷', 'Antijoin', 'Conserva filas de la relación actual sin pareja.'],
   union: ['∪', 'Unión', 'Reúne filas de dos relaciones compatibles.'],
   difference: ['−', 'Diferencia', 'Retira las filas presentes en la segunda relación.'],
   intersect: ['∩', 'Intersección', 'Conserva las filas que aparecen en ambas relaciones.'],
@@ -18,7 +27,8 @@ const operations = {
 };
 const comparators = ['=', '!=', '>', '<', '>=', '<='];
 const operationGroups = [
-  ['Filas y columnas', ['select', 'project', 'join']],
+  ['Filas y columnas', ['select', 'project', 'renameRelation', 'renameColumn']],
+  ['Combinar relaciones', ['join', 'thetaJoin', 'leftJoin', 'rightJoin', 'fullJoin', 'semiJoin', 'rightSemiJoin', 'antiJoin']],
   ['Comparar relaciones', ['union', 'difference', 'intersect', 'divide']],
   ['Cambiar datos', ['insert', 'delete', 'update']],
 ];
@@ -30,7 +40,7 @@ function defaults(op, relation, tables) {
   return {
     op, filters: [firstFilter(relation)], logic: 'and', columns: [],
     table: suggestJoinTable(relation, tables) || '', row: {},
-    field: relation.cols[0], mode: 'set', value: null, other: '',
+    field: relation.cols[0], mode: 'set', value: null, other: '', column: relation.cols[0], newName: '', joinCondition: '',
   };
 }
 function FieldNote({ issue, field }) {
@@ -68,7 +78,7 @@ export function VisualBuilder({ relation, tables, expression, isExercise, onAppl
     if (issue) return { issue, error: issue.message };
     try { const next = build(expression, config, tables); return { expression: next, result: run(next, tables) }; }
     catch (err) {
-      const field = ['union', 'difference', 'intersect', 'divide'].includes(config.op) ? 'other' : config.op === 'join' ? 'table' : null;
+      const field = ['union', 'difference', 'intersect', 'divide', 'thetaJoin', 'leftJoin', 'rightJoin', 'fullJoin', 'semiJoin', 'rightSemiJoin', 'antiJoin'].includes(config.op) ? 'other' : config.op === 'join' ? 'table' : null;
       return { error: err.message, semantic: true, issue: { field, kind: 'invalid', message: err.message } };
     }
   }, [expression, config, tables, relation]);
@@ -95,6 +105,8 @@ export function VisualBuilder({ relation, tables, expression, isExercise, onAppl
       {['select', 'delete', 'update'].includes(op) && <Conditions config={config} relation={relation} issue={preview.issue} onChange={change}/>}
       {op === 'project' && <div><div class="grid grid-cols-2 gap-2">{relation.cols.map(column => <label key={column} class={`flex items-center gap-2 rounded-lg border p-2.5 text-xs ${config.columns.includes(column) ? 'border-brand/25 bg-soft/50' : 'border-line'}`}><input type="checkbox" class="accent-brand" checked={config.columns.includes(column)} onChange={e => change({ columns: e.currentTarget.checked ? [...config.columns, column].sort((a, b) => relation.cols.indexOf(a) - relation.cols.indexOf(b)) : config.columns.filter(c => c !== column) })}/><span class="break-all font-mono text-[11px]">{column}</span></label>)}</div><FieldNote issue={preview.issue} field="columns"/></div>}
       {op === 'join' && <div><Field label="Tabla para conectar"><select id="joinTable" class="field" value={config.table} onChange={e => change({ table: e.currentTarget.value })}><option value="">Elige una tabla</option>{Object.keys(tables).map(name => <option key={name}>{name}</option>)}</select><FieldNote issue={preview.issue} field="table"/></Field><div class="mt-3 rounded-lg border border-dashed border-brand/20 bg-soft/35 p-3 text-[11px] text-muted">{!config.table ? 'Elige una tabla que comparta al menos una columna con el resultado actual.' : common.length ? <>Se relacionarán por: <strong class="font-mono text-brand">{common.join(', ')}</strong></> : 'Estas tablas no comparten columnas: se combinará cada fila con todas las de la otra tabla.'}</div></div>}
+      {['renameRelation', 'renameColumn'].includes(op) && <div class="space-y-3">{op === 'renameColumn' && <Field label="Columna actual"><select class="field" value={config.column} onChange={e => change({ column: e.currentTarget.value })}>{relation.cols.map(column => <option key={column}>{column}</option>)}</select></Field>}<Field label={op === 'renameRelation' ? 'Alias de la relación' : 'Nuevo nombre de columna'}><input class="field font-mono" value={config.newName} onInput={e => change({ newName: e.currentTarget.value })} aria-invalid={preview.issue?.field === 'newName' && preview.issue.kind === 'invalid' || undefined}/><FieldNote issue={preview.issue} field="newName"/></Field></div>}
+      {['thetaJoin', 'leftJoin', 'rightJoin', 'fullJoin', 'semiJoin', 'rightSemiJoin', 'antiJoin'].includes(op) && <div class="space-y-3"><Field label="Segunda relación"><input class="field font-mono text-xs" value={config.other} onInput={e => change({ other: e.currentTarget.value })} placeholder="Tabla o expresión"/><FieldNote issue={preview.issue} field="other"/></Field><Field label="Condición (opcional para joins naturales)"><input class="field font-mono text-xs" value={config.joinCondition} onInput={e => change({ joinCondition: e.currentTarget.value })} placeholder="Ej.: A.id = B.id"/><FieldNote issue={preview.issue} field="joinCondition"/></Field><p class="text-[10px] text-muted">Si ambas relaciones comparten nombres de columnas, renómbralas antes de escribir una condición explícita.</p></div>}
       {op === 'insert' && <div class="grid grid-cols-2 gap-3">{relation.cols.map(column => <Field key={column} label={`${column} · ${relation.types[column] === 'number' ? 'número' : 'texto'}`}><input class="field text-xs" aria-label={`Valor de ${column}`} aria-invalid={preview.issue?.field === `row-${column}` && preview.issue.kind === 'invalid' || undefined} value={config.row[column] ?? ''} onInput={e => change({ row: { ...config.row, [column]: e.currentTarget.value } })}/><FieldNote issue={preview.issue} field={`row-${column}`}/></Field>)}</div>}
       {op === 'update' && <div class="mt-4 grid grid-cols-2 gap-3 border-t border-line pt-4"><Field label="Columna a modificar"><select id="updateField" class="field text-xs" value={config.field} onChange={e => change({ field: e.currentTarget.value, mode: 'set', value: null })}>{relation.cols.map(col => <option key={col}>{col}</option>)}</select></Field><Field label="Tipo de cambio"><select id="updateMode" class="field text-xs" value={config.mode} onChange={e => change({ mode: e.currentTarget.value, value: null })}><option value="set">Sustituir valor</option><option value="add" disabled={relation.types[config.field] !== 'number'}>Sumar cantidad</option></select></Field><Field label={config.mode === 'add' ? 'Cantidad que se suma' : 'Nuevo valor'} className="col-span-2"><input id="updateValue" class="field" aria-invalid={preview.issue?.field === 'value' && preview.issue.kind === 'invalid' || undefined} value={config.value ?? ''} placeholder="Escribe el valor nuevo" onInput={e => change({ value: e.currentTarget.value })}/><FieldNote issue={preview.issue} field="value"/></Field></div>}
       {['union', 'difference', 'intersect', 'divide'].includes(op) && <div class="space-y-3"><Field label={op === 'divide' ? 'Elegir una tabla divisora' : 'Elegir una tabla compatible'}><select class="field" value={(op === 'divide' ? Object.keys(tables) : compatible).includes(config.other) ? config.other : ''} onChange={e => change({ other: e.currentTarget.value })}><option value="">Expresión personalizada…</option>{(op === 'divide' ? Object.keys(tables) : compatible).map(name => <option key={name}>{name}</option>)}</select></Field><Field label="Segunda relación"><input class="field font-mono text-xs" aria-invalid={preview.issue?.field === 'other' && preview.issue.kind === 'invalid' || undefined} value={config.other} onInput={e => change({ other: e.currentTarget.value })} placeholder={op === 'divide' ? 'π codigoServicio (Servicios)' : "σ ciudad = 'Juarez' (Casa)"}/><FieldNote issue={preview.issue} field="other"/></Field><p class="text-[10px] leading-relaxed text-muted">{op === 'divide' ? 'Las columnas del divisor deben estar en la primera relación. Proyecta las necesarias antes de dividir.' : 'Ambas relaciones necesitan las mismas columnas y tipos.'}</p></div>}

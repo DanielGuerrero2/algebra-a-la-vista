@@ -29,6 +29,10 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
     ['−', 'Diferencia', 'Conserva las filas de la primera relación que no están en la segunda.'],
     ['∩', 'Intersección', 'Conserva las filas que aparecen en ambas relaciones.'],
     ['÷', 'División', 'Conserva los valores de la primera relación relacionados con todos los valores del divisor.'],
+    ['ρ', 'Renombrado', 'Cambia el nombre de una relación o columna para distinguirla en una consulta.'],
+    ['⟕', 'Join externo', 'Conserva también las filas sin pareja y completa con valores nulos.'],
+    ['⋉', 'Semijoin', 'Conserva solo las filas de la primera relación que tienen pareja.'],
+    ['▷', 'Antijoin', 'Conserva las filas de la primera relación que no tienen pareja.'],
   ];
 
   return <div class="visual-guide">
@@ -75,6 +79,8 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
         <div><dt>Selección · filtrar filas</dt><dd><code><b>σ</b> <span>columna &gt; valor</span> <b>(</b>Relación<b>)</b></code><p>Escribe el símbolo, una condición completa y la relación entre paréntesis.</p></dd></div>
         <div><dt>Proyección · elegir columnas</dt><dd><code><b>π</b> <span>columna, otraColumna</span> <b>(</b>Relación<b>)</b></code><p>Separa las columnas con comas y usa sus nombres exactos, sin comillas.</p></dd></div>
         <div><dt>Join · conectar tablas</dt><dd><code>Relación <b>⋈</b> OtraRelación</code><p>Escribe una relación a cada lado. El enlace usa las columnas que tienen el mismo nombre.</p></dd></div>
+        <div><dt>Renombrado · distinguir columnas</dt><dd><code><b>ρ</b> alias <b>(</b>Relación<b>)</b></code><p>El alias califica las columnas; para cambiar una sola usa ρ nuevo←anterior (Relación).</p></dd></div>
+        <div><dt>Más joins · conservar o comparar filas</dt><dd><code>Relación <b>⟕</b> OtraRelación</code><p>También están ⟖, ⟗, ⋉, ⋊ y ▷. Usa una condición explícita con ⋈ cuando las columnas estén diferenciadas.</p></dd></div>
       </dl>
       <p>«Relación», «columna» y «valor» son marcadores: sustitúyelos por nombres y datos de tu base, como en el ejemplo de arriba.</p>
     </section>
