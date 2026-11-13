@@ -2,14 +2,14 @@
 
 const MAX_ROWS = 20000;
 const ROW_LIMIT_ERROR = 'El resultado supera 20 000 filas. Aplica un filtro antes de combinar las tablas.';
-const priority = { union: 1, '∪': 1, '-': 1, '−': 1, intersect: 1, '∩': 1, join: 2, '⋈': 2, cross: 2, '×': 2, divide: 2, '÷': 2 };
+const priority = { union: 1, '∪': 1, '-': 1, '−': 1, intersect: 1, '∩': 1, join: 2, '⋈': 2, cross: 2, '×': 2, divide: 2, '÷': 2, leftjoin: 2, rightjoin: 2, fulljoin: 2, semijoin: 2, rightsemijoin: 2, antijoin: 2, '⟕': 2, '⟖': 2, '⟗': 2, '⋉': 2, '⋊': 2, '▷': 2 };
 
 const key = row => JSON.stringify(Object.entries(row).sort(([a], [b]) => a.localeCompare(b)));
 const dedupe = rows => [...new Map(rows.map(row => [key(row), row])).values()];
 
 function tokenize(text) {
   const tokens = [];
-  const re = /\s+|'(?:[^']|'')*'|-?\d+(?:\.\d+)?|!=|>=|<=|[A-Za-z_][\w]*|[σπ⋈∪∩×−÷]|[(){}:,=><+*-]/gy;
+  const re = /\s+|'(?:[^']|'')*'|-?\d+(?:\.\d+)?|!=|>=|<=|←|->|[A-Za-z_][\w]*|[σπρ⋈∪∩×−÷⟕⟖⟗⋉⋊▷]|[(){}:,.=><+*-]/gy;
   let pos = 0;
   while (pos < text.length) {
     re.lastIndex = pos;
@@ -39,7 +39,8 @@ function node(label, cols, rows, children = [], declaredTypes = {}) {
 function predicate(tokens, cols, types) {
   let pos = 0;
   function value() {
-    const token = tokens[pos++];
+    let token = tokens[pos++];
+    if (tokens[pos] === '.' && tokens[pos + 1]) { pos++; token += '.' + tokens[pos++]; }
     if (token === undefined) throw Error('Falta el valor de la condición. Ejemplo: precio > 1000000.');
     const parsed = literal(token);
     if (parsed !== undefined) return { get: () => parsed, type: typeof parsed };
@@ -116,6 +117,43 @@ function combine(left, right, operator) {
     }
   }
   return node(join ? '⋈ ' + (common.join(', ') || 'sin columnas comunes') : '×', cols, rows, [left, right]);
+}
+
+function extendedJoin(left, right, operator, conditionTokens = []) {
+  const leftOnly = ['semijoin', '⋉'].includes(operator);
+  const rightOnly = ['rightsemijoin', '⋊'].includes(operator);
+  const outerLeft = ['leftjoin', '⟕', 'fulljoin', '⟗'].includes(operator);
+  const outerRight = ['rightjoin', '⟖', 'fulljoin', '⟗'].includes(operator);
+  const common = left.cols.filter(col => right.cols.includes(col));
+  const natural = !conditionTokens.length;
+  if (natural) for (const col of common) {
+    if (left.types[col] && right.types[col] && left.types[col] !== right.types[col]) throw Error('Tipos incompatibles en ' + col);
+  }
+  if (!natural && common.length) throw Error('Renombra las columnas comunes antes de usar una condición de join: ' + common.join(', '));
+  const cols = leftOnly || ['antijoin', '▷'].includes(operator) ? left.cols : rightOnly ? right.cols : [...left.cols, ...right.cols.filter(col => !common.includes(col))];
+  const types = Object.fromEntries(cols.map(col => [col, left.types[col] || right.types[col]]));
+  const condition = natural ? ((row, a, b) => common.every(col => a[col] != null && b[col] != null && a[col] === b[col]))
+    : predicate(conditionTokens, [...left.cols, ...right.cols], { ...left.types, ...right.types });
+  const rows = [];
+  const matchedRight = new Set();
+  const add = row => { if (rows.length === MAX_ROWS) throw Error(ROW_LIMIT_ERROR); rows.push(row); };
+  for (const a of left.rows) {
+    let matched = false;
+    for (const [index, b] of right.rows.entries()) {
+      const merged = { ...a, ...b, ...Object.fromEntries(common.map(col => ['__right_' + col, b[col]])) };
+      if (!condition(merged, a, b)) continue;
+      matched = true;
+      matchedRight.add(index);
+      if (leftOnly) { add(a); break; }
+      if (rightOnly) { add(b); continue; }
+      if (!['antijoin', '▷'].includes(operator)) add(Object.fromEntries(cols.map(col => [col, a[col] ?? b[col]])));
+    }
+    if (!matched && (outerLeft || ['antijoin', '▷'].includes(operator))) add(Object.fromEntries(cols.map(col => [col, Object.hasOwn(a, col) ? a[col] : null])));
+  }
+  if (outerRight) right.rows.forEach((b, index) => {
+    if (!matchedRight.has(index)) add(Object.fromEntries(cols.map(col => [col, Object.hasOwn(b, col) ? b[col] : null])));
+  });
+  return node(operator + (conditionTokens.length ? ' ' + conditionTokens.join(' ') : ''), cols, rows, [left, right], types);
 }
 
 function setOperation(left, right, operator) {
@@ -205,6 +243,26 @@ function run(text, db, schemas = {}) {
     need('(');
     const source = expression();
     need(')');
+    if (['rho', 'ρ'].includes(operator)) {
+      if (!args.length) throw Error('Indica el nuevo nombre de la relación o columna.');
+      const mappings = [];
+      if (args.includes('←') || args.includes('->')) {
+        for (let index = 0; index < args.length;) {
+          const first = args[index++];
+          const arrow = args[index++];
+          const second = args[index++];
+          if (!['←', '->'].includes(arrow) || !second) throw Error('Revisa el renombrado de columnas.');
+          mappings.push(arrow === '←' ? [second, first] : [first, second]);
+          if (index < args.length && args[index++] !== ',') throw Error('Separa los renombrados con comas.');
+        }
+      } else if (args.length === 1) {
+        if (!/^[A-Za-z_]\w*$/.test(args[0])) throw Error('Nombre de relación inválido.');
+        return node('ρ ' + args[0], source.cols.map(col => args[0] + '.' + col), source.rows.map(row => Object.fromEntries(source.cols.map(col => [args[0] + '.' + col, row[col]]))), [source], Object.fromEntries(source.cols.map(col => [args[0] + '.' + col, source.types[col]])));
+      } else throw Error('Revisa el renombrado.');
+      const names = source.cols.map(col => mappings.find(([old]) => old === col)?.[1] || col);
+      if (mappings.some(([old]) => !source.cols.includes(old)) || new Set(names).size !== names.length) throw Error('Columnas desconocidas o repetidas en el renombrado.');
+      return node('ρ ' + args.join(' '), names, source.rows.map(row => Object.fromEntries(source.cols.map((col, index) => [names[index], row[col]]))), [source], Object.fromEntries(source.cols.map((col, index) => [names[index], source.types[col]])));
+    }
     if (['pi', 'π'].includes(operator)) {
       const cols = args.filter(token => token !== ',');
       if (!cols.length || cols.some(col => !source.cols.includes(col))) throw Error('Revisa las columnas de la proyección');
@@ -222,7 +280,7 @@ function run(text, db, schemas = {}) {
       need(')');
       return result;
     }
-    if (['pi', 'π', 'sigma', 'σ'].includes(token)) return unary(token);
+    if (['pi', 'π', 'sigma', 'σ', 'rho', 'ρ'].includes(token)) return unary(token);
     if (token === '{') return relationLiteral();
     if (!Object.hasOwn(db, token)) throw Error('Relación desconocida: ' + token);
     const rows = db[token];
@@ -233,9 +291,15 @@ function run(text, db, schemas = {}) {
     let left = atom();
     while (peek() && Object.hasOwn(priority, peek()) && priority[peek()] >= min) {
       const operator = take();
+      const conditionTokens = [];
+      if (['join', '⋈', 'leftjoin', 'rightjoin', 'fulljoin', 'semijoin', 'rightsemijoin', 'antijoin', '⟕', '⟖', '⟗', '⋉', '⋊', '▷'].includes(operator) && peek() && !['(', '{', 'rho', 'ρ', 'pi', 'π', 'sigma', 'σ'].includes(peek()) && !Object.hasOwn(db, peek())) {
+        while (peek() && !['(', '{'].includes(peek()) && !Object.hasOwn(db, peek())) conditionTokens.push(take());
+      }
       const right = expression(priority[operator] + 1);
-      left = ['join', '⋈', 'cross', '×'].includes(operator)
-        ? combine(left, right, operator) : ['divide', '÷'].includes(operator)
+      left = ['join', '⋈'].includes(operator) && conditionTokens.length ? extendedJoin(left, right, operator, conditionTokens)
+        : ['join', '⋈', 'cross', '×'].includes(operator) ? combine(left, right, operator)
+        : ['leftjoin', 'rightjoin', 'fulljoin', 'semijoin', 'rightsemijoin', 'antijoin', '⟕', '⟖', '⟗', '⋉', '⋊', '▷'].includes(operator) ? extendedJoin(left, right, operator, conditionTokens)
+        : ['divide', '÷'].includes(operator)
           ? divide(left, right) : setOperation(left, right, operator);
     }
     return left;
