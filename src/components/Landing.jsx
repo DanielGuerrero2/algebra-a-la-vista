@@ -16,8 +16,9 @@ export function Landing() {
     <header class="landing-nav">
       <a class="landing-brand" href="#" aria-label="Álgebra a la vista, inicio"><BrandIcon className="landing-mark"/>Álgebra a la vista<span class="landing-dot">.</span></a>
       <nav class="landing-nav-actions" aria-label="Navegación principal">
+        <a href="#guia" class="landing-guide-link">Primero, ver la guía <span aria-hidden="true">↓</span></a>
         <Button asChild variant="outline" size="sm"><a href="#playground">Playground</a></Button>
-
+        <Button asChild size="sm"><a href="#laboratorio">Entrar al laboratorio <span aria-hidden="true">↗</span></a></Button>
       </nav>
     </header>
     <main id="inicio" tabIndex={-1}>
@@ -28,7 +29,6 @@ export function Landing() {
             <h1 id="landing-title">De los símbolos<br/>a los <em>resultados.</em></h1>
             <Badge variant="outline" className="landing-hero-badge"><span class="size-1.5 rounded-full bg-primary" aria-hidden="true"/> Tu espacio de álgebra relacional</Badge>
             <p class="landing-description">El álgebra relacional se entiende mejor cuando puedes verla. Construye consultas, explora cada operación y descubre qué pasa con tus datos.</p>
-            <div class="landing-hero-actions"><Button asChild size="lg"><a href="#laboratorio">Entrar al laboratorio <span aria-hidden="true">↗</span></a></Button><a href="#guia" class="landing-guide-link">Primero, ver la guía <span aria-hidden="true">↓</span></a></div>
             <p class="landing-note">Sin registro. A tu ritmo. Desde tu navegador.</p>
             <div class="landing-facts"><span><strong>{exerciseTotal}</strong> ejercicios guiados</span><span><strong>{datasets.length}</strong> bases de ejemplo</span></div>
           </div>
@@ -62,7 +62,7 @@ export function Landing() {
         </Card>
       </section>
       <section id="guia" class="landing-guide" aria-labelledby="guide-title" tabIndex={-1}>
-        <div class="landing-guide-heading"><div><p class="eyebrow">TU PRIMERA CONSULTA, PASO A PASO</p><h2 id="guide-title">Entiende los símbolos.<br/>Sigue los datos.</h2></div><div class="landing-guide-aside"><p>No necesitas saber la sintaxis de memoria. Empieza por una tabla y descubre cómo se construye una expresión.</p><img class="landing-guide-art" src={`${import.meta.env.BASE_URL}assets/illustrations/ilustracion-construir-expresion-520.webp`} width="520" height="222" alt="Una tabla inicial pasa por una pieza de filtro colocada en un constructor visual y produce una tabla con menos filas." loading="lazy" decoding="async"/></div></div>
+        <div class="landing-guide-heading"><div><p class="eyebrow">TU PRIMERA CONSULTA, PASO A PASO</p><h2 id="guide-title">Entiende los símbolos.<br/>Sigue los datos.</h2></div><div class="landing-guide-aside"><p>Empieza por una tabla y descubre cómo se construye una expresión. Después compara las entradas y resultados de otras cinco operaciones.</p><img class="landing-guide-art" src={`${import.meta.env.BASE_URL}assets/illustrations/ilustracion-construir-expresion-520.webp`} width="520" height="222" alt="Una tabla inicial pasa por una pieza de filtro colocada en un constructor visual y produce una tabla con menos filas." loading="lazy" decoding="async"/></div></div>
         <VisualGuide data={datasets[0]}/>
       </section>
       <section class="landing-method" aria-label="Cómo funciona el laboratorio">
@@ -80,7 +80,7 @@ export function Landing() {
       </div>
       <div class="landing-footer-bottom">
         <span>Álgebra a la vista · Aprende, prueba, comprende.</span>
-        <nav aria-label="Enlaces del pie de página"><a href="#inicio">Inicio</a><a href="#guia">Guía visual</a><a href="#laboratorio">Laboratorio</a><a href="#playground">Playground</a></nav>
+        <nav aria-label="Enlaces del pie de página"><a href="#inicio">Inicio</a><a href="#guia">Guía visual</a><a href="#operaciones">Operaciones</a><a href="#laboratorio">Laboratorio</a><a href="#playground">Playground</a></nav>
         <span>Tu progreso se guarda en este navegador.</span>
       </div>
     </footer>

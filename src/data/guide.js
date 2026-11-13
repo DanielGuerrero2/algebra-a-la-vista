@@ -37,3 +37,42 @@ export const GUIDE_EXAMPLES = [
     ],
   },
 ];
+
+const operationSettings = [
+  {
+    source: 'Casa', condition: "ciudad = 'Chih'", subset: "ciudad = 'Juarez'",
+    join: 'Vendedor ⋈ Ventas',
+    division: 'π numVend, numCasa (Ventas) ÷ π numCasa (σ numVend = 3465 (Ventas))',
+    divisionText: 'Busca vendedores relacionados con todas las casas vendidas por Hugo. Aquí, Hugo cumple ambas relaciones.',
+  },
+  {
+    source: 'Productos', condition: 'precio > 2000', subset: 'precio < 1500',
+    join: 'Clientes ⋈ Venta',
+    division: 'π numCliente, codProducto (Venta) ÷ π codProducto (σ numCliente = 14 (Venta))',
+    divisionText: 'Busca clientes que compraron todos los productos que compró el cliente 14.',
+  },
+  {
+    source: 'Libro', condition: 'pagunas > 500', subset: "tema = 'Sistemas'",
+    join: 'Libro ⋈ Autor',
+    division: 'π cveAutor, numSerie (Libro) ÷ π numSerie (σ cveAutor = 1752 (Libro))',
+    divisionText: 'Busca autores relacionados con todos los libros de la autora 1752.',
+  },
+  {
+    source: 'Vehiculos', condition: "marca = 'Chevrolet'", subset: "marca = 'Toyota'",
+    join: 'Vehiculos ⋈ Reparaciones',
+    division: 'π placaVehiculo, codigoServicio (Reparaciones) ÷ π codigoServicio (Servicios)',
+    divisionText: 'Busca vehículos que recibieron todos los servicios del catálogo.',
+  },
+];
+
+export const GUIDE_OPERATIONS = operationSettings.map(({ source, condition, subset, join, division, divisionText }) => {
+  const filtered = `σ ${condition} (${source})`;
+  const other = `σ ${subset} (${source})`;
+  return [
+    { symbol: '⋈', title: 'Join natural', expression: join, inputs: join.split(' ⋈ '), text: 'Relaciona las filas que comparten el mismo valor en las columnas comunes. Las columnas comunes aparecen una sola vez.' },
+    { symbol: '∪', title: 'Unión', expression: `${filtered} ∪ (${other})`, inputs: [filtered, other], text: 'Reúne las filas de ambos filtros sin repetirlas. Las dos relaciones tienen las mismas columnas y tipos.' },
+    { symbol: '−', title: 'Diferencia', expression: `${source} − (${filtered})`, inputs: [source, filtered], text: 'Parte de la tabla original y retira las filas que cumplen el filtro.' },
+    { symbol: '∩', title: 'Intersección', expression: `${source} ∩ (${filtered})`, inputs: [source, filtered], text: 'Conserva únicamente las filas que aparecen en ambas relaciones.' },
+    { symbol: '÷', title: 'División', expression: division, inputs: division.split(' ÷ '), text: divisionText },
+  ];
+});

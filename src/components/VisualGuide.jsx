@@ -1,6 +1,6 @@
 import { useId, useMemo, useState } from 'preact/hooks';
 import { run } from '../core/engine.js';
-import { GUIDE_EXAMPLES } from '../data/guide.js';
+import { GUIDE_EXAMPLES, GUIDE_OPERATIONS } from '../data/guide.js';
 import { DataTable } from './DataTable.jsx';
 import { Expression } from './Editor.jsx';
 import { Button, Icon } from './ui.jsx';
@@ -9,7 +9,12 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
   const id = useId();
   const [selected, setSelected] = useState(0);
   const [method, setMethod] = useState('visual');
+  const [selectedOperation, setSelectedOperation] = useState(0);
   const example = GUIDE_EXAMPLES[dataset];
+  const operations = GUIDE_OPERATIONS[dataset];
+  const operation = operations[selectedOperation];
+  const operationResult = useMemo(() => run(operation.expression, data.relations), [operation, data]);
+  const operationInputs = useMemo(() => operation.inputs.map(expression => ({ expression, result: run(expression, data.relations) })), [operation, data]);
   const results = useMemo(() => example.steps.map(step => run(step.expression, data.relations)), [example, data]);
   const step = example.steps[selected];
   const result = results[selected];
@@ -46,6 +51,23 @@ export function VisualGuide({ data, dataset = 0, onLoadExample }) {
       <div class="guide-preview-footer"><span>Ejemplo con datos de la base</span><Button variant="ghost" onClick={() => setSelected((selected + 1) % example.steps.length)}>{selected === example.steps.length - 1 ? 'Volver al inicio' : 'Siguiente paso'} <Icon name={selected === example.steps.length - 1 ? 'reset' : 'arrow'}/></Button></div>
     </div>
     <p class="guide-reading"><strong>Lee de adentro hacia afuera:</strong> primero la tabla entre paréntesis, después σ y al final π. Cada operación usa el resultado de la anterior.</p>
+
+    <section id="operaciones" class="guide-operations" aria-labelledby={`${id}-operations`}>
+      <div class="guide-section-heading"><span class="guide-section-number math" aria-hidden="true">⋈</span><div><p class="eyebrow">EXPLORA MÁS OPERACIONES</p><h3 id={`${id}-operations`}>Dos relaciones, una nueva respuesta.</h3></div></div>
+      <p>Elige una operación para comparar sus entradas con el resultado. Cada ejemplo utiliza la base {data.title}.</p>
+      <div class="guide-operation-picker" role="group" aria-label="Operación del ejemplo">
+        {operations.map((item, index) => <button key={item.symbol} type="button" aria-pressed={selectedOperation === index} aria-controls={`${id}-operation-preview`} onClick={() => setSelectedOperation(index)}><span class="math" aria-hidden="true">{item.symbol}</span>{item.title}</button>)}
+      </div>
+      <div id={`${id}-operation-preview`} class="guide-operation-preview">
+        <div class="guide-step-copy"><p class="eyebrow">EJEMPLO · {operation.title.toUpperCase()}</p><h3>{operation.title}</h3><p>{operation.text}</p><div class="guide-expression-wrap"><span>EXPRESIÓN</span><code class="guide-expression"><Expression text={operation.expression} tables={data.relations}/></code></div></div>
+        <div class="guide-operation-tables">
+          {operationInputs.map(({ expression, result }, index) => <div key={expression} class="guide-operation-table"><div class="guide-result-heading"><span>ENTRADA {index + 1}</span><strong>{result.rows.length} filas · {result.cols.length} columnas</strong></div><code class="guide-input-expression"><Expression text={expression} tables={data.relations}/></code><DataTable relation={result} label={`Entrada ${index + 1} de ${operation.title}`} compact/></div>)}
+        </div>
+        <div class="guide-result-heading"><span>RESULTADO · {operation.title.toUpperCase()}</span><strong>{operationResult.rows.length} filas · {operationResult.cols.length} columnas</strong></div>
+        <DataTable relation={operationResult} label={`Resultado de ${operation.title}`} compact/>
+        {onLoadExample && <div class="guide-preview-footer"><span>Prueba esta expresión en el laboratorio</span><Button variant="primary" icon="play" onClick={() => onLoadExample(operation.expression)}>Cargar ejemplo en el editor</Button></div>}
+      </div>
+    </section>
 
     <section class="guide-syntax" aria-labelledby={`${id}-syntax`}>
       <h3 id={`${id}-syntax`}>La sintaxis, pieza por pieza</h3>
