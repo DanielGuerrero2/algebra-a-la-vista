@@ -17,8 +17,8 @@ export function Landing() {
       <a class="landing-brand" href="#" aria-label="Álgebra a la vista, inicio"><BrandIcon className="landing-mark"/>Álgebra a la vista<span class="landing-dot">.</span></a>
       <nav class="landing-nav-actions" aria-label="Navegación principal">
         <a href="#guia" class="landing-guide-link">Primero, ver la guía <span aria-hidden="true">↓</span></a>
-        <Button asChild variant="outline" size="sm"><a href="#playground">Playground</a></Button>
         <Button asChild size="sm"><a href="#laboratorio">Entrar al laboratorio <span aria-hidden="true">↗</span></a></Button>
+        <Button asChild variant="outline" size="sm"><a href="#playground">Playground</a></Button>
       </nav>
     </header>
     <main id="inicio" tabIndex={-1}>

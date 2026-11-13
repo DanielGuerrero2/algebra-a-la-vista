@@ -127,7 +127,7 @@ autor:number, nombre:string
 
 Cada relación declara sus columnas y tipos (`number` o `string`, sin distinguir mayúsculas). Las filas de texto pueden ir entre comillas simples o sin ellas; las comillas son necesarias si el valor contiene comas. Se permiten comentarios de línea iniciados con `--`. El archivo se valida completo antes de agregar sus tablas. Todas las filas deben tener las mismas columnas y cada columna debe mantener su tipo (`string` o `number`). No se aceptan celdas vacías, nombres fuera del patrón `[A-Za-z_][A-Za-z_0-9]*`, archivos de más de 2 MB ni tablas de más de 20 000 filas.
 
-Los archivos cargados permanecen solo en la memoria de la pestaña. Al salir del playground o recargar la página, se eliminan. No usan las claves de almacenamiento del laboratorio ni modifican las bases de ejemplo.
+El playground guarda sus tablas, la tabla seleccionada, la expresión, el historial y el modo de edición en `localStorage`, bajo la clave `playground-work-v1`, separada de las claves del laboratorio. Al regresar o recargar, restaura el trabajo y recalcula los resultados sin almacenarlos. El estado serializado tiene un límite de 2 MB; si lo supera o el navegador rechaza la escritura, el trabajo continúa en la pestaña y se muestra un aviso, mientras se conserva el último guardado válido. Un guardado dañado se ignora y se muestra un aviso. Las bases de ejemplo no se modifican.
 
 Cada base contiene `title`, `relations` y `exercises`. Las relaciones son arreglos de objetos JavaScript. Cada objeto es una fila y cada propiedad es una columna.
 
@@ -282,9 +282,9 @@ Al dejar de escribir durante 500 ms, el editor revisa la expresión con `diagnos
 
 Una consulta válida muestra una confirmación; una inválida muestra el error del intérprete y una sugerencia de corrección. Se contemplan comillas y paréntesis sin cerrar, nombres desconocidos, proyecciones, comparadores, valores ausentes y tipos incompatibles. Los ejemplos de corrección utilizan nombres de la base activa. Cuando se conoce la posición, **Señalar en el editor** enfoca y selecciona el carácter correspondiente. El campo comunica su error mediante `aria-invalid` y enlaza el diagnóstico con `aria-describedby`. Las relaciones vacías válidas se aceptan.
 
-La portada incluye la sección `#guia`, accesible desde **Ver la guía visual**. El botón **Guía** y la invitación **Abrir guía visual** del laboratorio abren el mismo componente dentro de un diálogo. La guía muestra datos reales: tabla original → selección de filas → proyección de columnas, con expresiones y cantidades calculadas por el intérprete. Incluye plantillas de sintaxis, instrucciones para el constructor y el editor, un diccionario y errores frecuentes.
+La portada incluye la sección `#guia` y el acceso directo `#operaciones`. El botón **Guía** y la invitación **Abrir guía visual** del laboratorio abren el mismo componente dentro de un diálogo. La guía muestra datos reales: tabla original → selección de filas → proyección de columnas. Después ofrece ejemplos independientes de join natural, unión, diferencia, intersección y división. El selector muestra las dos relaciones de entrada, la expresión y el resultado calculados por el intérprete. Incluye plantillas de sintaxis, instrucciones para el constructor y el editor, un diccionario y errores frecuentes.
 
-En el laboratorio, el ejemplo corresponde a la base activa: `Casa`, `Productos` o `Libro`. **Cargar ejemplo en el editor** reemplaza el borrador de la consulta y abre el editor; el usuario pulsa **Ejecutar** para aplicarlo. Recorrer la demostración no cambia el trabajo del laboratorio. Los ejemplos viven en `src/data/guide.js`, en el mismo orden que `datasets.json`; deben actualizarse juntos si se añaden o reordenan bases. Se mantienen las claves de almacenamiento existentes.
+En el laboratorio, los ejemplos corresponden a la base activa: `Casa`, `Productos`, `Libro` o `Vehiculos`. **Cargar ejemplo en el editor** carga la expresión que se muestra, reemplaza el borrador de la consulta y abre el editor; el usuario pulsa **Ejecutar** para aplicarla. Recorrer la demostración no cambia el trabajo del laboratorio. Los ejemplos viven en `src/data/guide.js`, en el mismo orden que `datasets.json`; deben actualizarse juntos si se añaden o reordenan bases. Se mantienen las claves de almacenamiento existentes. El producto cartesiano está disponible en el editor, pero no en el constructor visual; las altas, bajas y modificaciones se explican en los ejercicios.
 
 ## 8. Lenguaje de consultas
 
@@ -738,8 +738,9 @@ El motor es síncrono. El join y el producto se detienen al intentar generar la 
 ### 18.3 Alcance del lenguaje y del modelo
 
 - No utiliza `eval()` ni ejecuta el texto como JavaScript.
-- No ofrece SQL, agregaciones, ordenamiento, alias, renombrado, joins externos ni funciones generales de cadenas o fechas.
-- No implementa `NULL` ni lógica ternaria de SQL.
+- No ofrece SQL, agregaciones, ordenamiento ni funciones generales de cadenas o fechas.
+- Admite `ρ alias (R)` para calificar columnas y `ρ nuevo←anterior (R)` para renombrar una columna. El join con condición usa `R ⋈ A.id = B.id (S)`; se deben diferenciar previamente los nombres de columna comunes. Los joins externos `⟕`, `⟖`, `⟗`, semijoins `⋉`, `⋊` y antijoin `▷` aceptan una condición opcional. Sin condición, comparan columnas comunes como el join natural. Las filas externas sin pareja tienen `null` en las columnas faltantes.
+- Los joins externos usan `null` para columnas sin pareja; las condiciones no implementan la lógica ternaria de SQL.
 - No hay un optimizador: se respeta la estructura escrita y la precedencia del analizador.
 - No interpreta asignaciones o aritmética general en proyecciones o condiciones; las sumas del constructor se materializan antes como literales.
 - Las tablas originales obtienen su esquema de la primera fila. Una tabla vacía necesita tipos declarados en el argumento `schemas` de `run()`; los datos actuales no incluyen tablas vacías.
