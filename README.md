@@ -6,7 +6,7 @@ Laboratorio de álgebra relacional en español con 23 ejercicios de Inmobiliaria
 
 El estilo de las ilustraciones se define en [docs/estilo-imagenes.md](docs/estilo-imagenes.md): referencia cartoon, paleta, composición y criterios de integración.
 
-La portada presenta el laboratorio e incluye una demostración de selección y proyección con datos de Inmobiliaria. «Entrar al laboratorio» abre `#laboratorio`; «Inicio» regresa a la portada. Los borradores y el progreso conservan su almacenamiento habitual. La portada se implementa en `src/components/Landing.jsx` y la navegación en `src/main.jsx`.
+La portada presenta el laboratorio e incluye una demostración de selección y proyección con datos de Inmobiliaria. La navegación abre `#laboratorio` y `#playground`; «Inicio» regresa a `/`. Los borradores y el progreso conservan su almacenamiento habitual. Las vistas están en `src/pages/` y la navegación en `src/main.jsx`.
 
 La interfaz utiliza Button, Card y Badge adaptados de [shadcn/ui (New York)](https://ui.shadcn.com/) en `src/components/ui/`. Los componentes están en JavaScript y usan la compatibilidad de React incluida en el preset de Preact. `src/components/ui.jsx` conserva la API de botones del laboratorio. Los colores semánticos se definen en `src/styles.css`; las variantes se componen con `class-variance-authority` y `cn()` en `src/lib/utils.js`. `components.json` y el alias `@/` permiten incorporar más componentes. Conservar las adaptaciones de Preact y los tamaños adaptados al dispositivo al actualizarlos.
 

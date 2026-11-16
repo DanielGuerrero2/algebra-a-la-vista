@@ -9,7 +9,7 @@ export function Expression({ text, tables }) {
     return <span key={index} class={color}>{token}</span>;
   });
 }
-export function Editor({ expression, tables, onEdit, onExecute, executionError, focusRequest }) {
+export function Editor({ expression, tables, onEdit, onExecute, executionError, focusRequest, showExecuteFooter = true }) {
   const input = useRef(), overlay = useRef(), caret = useRef(null);
   const [validation, setValidation] = useState(null);
   useEffect(() => {
@@ -48,6 +48,6 @@ export function Editor({ expression, tables, onEdit, onExecute, executionError, 
     <div id="editor-validation" role="status" aria-live="polite" class={`editor-validation ${diagnostic ? 'has-error' : ''}`}>
       {!checked ? <p>Revisando la expresión…</p> : diagnostic ? <><strong>Revisa tu consulta{diagnostic.position !== undefined ? ` · carácter ${diagnostic.position + 1}` : ''}</strong><p>{diagnostic.message}</p><p><strong>Cómo corregirlo:</strong> {diagnostic.hint}</p>{diagnostic.position !== undefined && <Button variant="ghost" onClick={() => { input.current.focus(); input.current.setSelectionRange(diagnostic.position, diagnostic.position + 1); }}>Señalar en el editor</Button>}</> : <><strong>Expresión válida para esta base.</strong><p>Pulsa «Ejecutar» para ver el resultado. En un ejercicio, «Comprobar» valida si responde al enunciado.</p></>}
     </div>
-    <div class="mt-auto flex items-center justify-between gap-3 px-5 pb-5"><span class="text-[10px] text-muted"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><Button variant="primary" onClick={onExecute} icon="play">Ejecutar</Button></div>
+    {showExecuteFooter && <div class="mt-auto flex items-center justify-between gap-3 px-5 pb-5"><span class="text-[10px] text-muted"><kbd>Ctrl</kbd> + <kbd>Enter</kbd></span><Button variant="primary" onClick={onExecute} icon="play">Ejecutar</Button></div>}
   </div>;
 }

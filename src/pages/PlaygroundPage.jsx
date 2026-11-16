@@ -3,14 +3,10 @@ import { parseTableFile, parseTableGroup } from '../core/playground-import.js';
 import { loadPlayground, savePlayground } from '../core/playground-storage.js';
 import { createSession, reduceSession } from '../core/session.js';
 import { run } from '../core/engine.js';
-import { Button, Icon } from './ui.jsx';
-import { VisualBuilder } from './VisualBuilder.jsx';
-import { Editor } from './Editor.jsx';
-import { Inspector } from './Inspector.jsx';
-import { BrandIcon } from './BrandIcon.jsx';
-import { QueryControls } from './QueryControls.jsx';
+import { SiteHeader } from '../components/SiteHeader.jsx';
+import { PlaygroundTables, PlaygroundQuery, PlaygroundResults } from '../components/PlaygroundSections.jsx';
 
-export function Playground() {
+export function PlaygroundPage() {
   const fileInput = useRef(null);
   const [saved] = useState(() => loadPlayground(window.localStorage));
   const [tables, setTables] = useState(saved.tables);
@@ -102,22 +98,12 @@ export function Playground() {
   return <div class="playground-shell">
     <input type="file" accept=".csv,.json,.txt" multiple hidden ref={fileInput} onChange={importFiles}/>
     <a href="#playground-main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-4">Ir al playground</a>
-    <header class="playground-toolbar">
-      <div class="playground-toolbar-brand"><a href="#inicio" aria-label="Álgebra a la vista, inicio"><BrandIcon className="playground-toolbar-mark"/>Álgebra a la vista<span class="text-amber-500">.</span></a><span class="playground-toolbar-divider"/><strong>Playground</strong></div>
-      <nav aria-label="Secciones" class="playground-toolbar-nav"><a href="#laboratorio">Laboratorio</a><span class="hidden rounded-full border border-brand/15 bg-soft px-2 py-0.5 text-[9px] font-normal text-brand xl:block">Álgebra relacional</span></nav>
-    </header>
+    <SiteHeader current="playground" className="playground-toolbar" afterBrand={<><span class="playground-toolbar-divider"/><strong>Playground</strong></>}/>
     <main id="playground-main" tabIndex={-1} class="playground-workspace">
-      <aside class="playground-tables" aria-labelledby="playground-tables-title">
-        <div class="playground-sidebar-heading"><h1 id="playground-tables-title">TABLAS <span>{names.length}</span></h1><button aria-label="Importar tablas" title="Importar tablas" onClick={() => fileInput.current?.click()}><Icon name="plus" size={15}/></button></div>
-        <div class="playground-table-list">{names.map(name => <div key={name} class={`playground-table-item ${work.source === name ? 'is-active' : ''}`}><button onClick={() => selectTable(name)} aria-current={work.source === name ? 'true' : undefined}><Icon name="table" size={14}/><span>{name}</span><small>{tables[name].length}</small></button><button class="playground-table-remove" aria-label={`Eliminar tabla ${name}`} title={`Eliminar ${name}`} onClick={() => remove(name)}><Icon name="close" size={13}/></button></div>)}{!names.length && <p class="playground-empty-tables">Importa CSV, JSON o un grupo TXT para comenzar.</p>}</div>
-        <div class="playground-sidebar-help"><strong>Formato de archivos</strong><p>CSV o JSON: una tabla por archivo. TXT con <code>group: NOMBRE</code>: varias relaciones tipadas en un archivo.</p><p>Máximo 2 MB por archivo y 20 000 filas por tabla. El trabajo se guarda en este navegador.</p></div>
-      </aside>
+      <PlaygroundTables tables={tables} source={work.source} onImport={() => fileInput.current?.click()} onSelect={selectTable} onRemove={remove}/>
       <div class="playground-main-pane">
-        <section class="playground-query" aria-label="Editor de consultas">
-          <div class="playground-query-tabs"><div class="playground-query-title"><span class="playground-tab-active">Consulta </span><span class="playground-tab-name">{work.source || 'Sin tabla'}</span></div><QueryControls mode={mode} onModeChange={changeMode} onUndo={() => dispatch({ type: 'undo' })} onRedo={() => dispatch({ type: 'redo' })} undoDisabled={work.index === 0 && work.expression === work.history[0]} redoDisabled={work.index === work.history.length - 1 || stale} labels={{ visual: 'Visual', code: 'Símbolos' }} order={['code', 'visual']} className="playground-query-actions"><Button variant="primary" icon="play" disabled={!names.length} onClick={() => execute()}>Ejecutar</Button></QueryControls></div>
-          {names.length ? <div class="playground-editor-body query-panel">{mode === 'code' ? <Editor expression={work.expression} tables={tables} executionError={stale ? null : parsed.error} onEdit={expression => dispatch({ type: 'edit', expression })} onExecute={() => execute()}/> : root ? <VisualBuilder key={work.source} relation={root} tables={tables} expression={work.expression} isExercise={false} onApply={expression => execute(expression, false)} onShowResult={() => execute()}/> : <div class="p-6 text-sm text-muted">{parsed.error || 'Ejecuta tu expresión para continuar.'}</div>}</div> : <div class="playground-empty-editor"><span class="math">σ π ⋈</span><h2>Tu espacio para experimentar</h2><p>Importa tus tablas para construir y ejecutar expresiones de álgebra relacional.</p><Button variant="primary" icon="plus" onClick={() => fileInput.current?.click()}>Importar archivos</Button></div>}
-        </section>
-        <section class="playground-results" aria-label="Resultados de la consulta"><div class="playground-results-heading"><h2>RESULTADOS</h2><span>{work.resultVisible && root ? `${root.rows.length} ${root.rows.length === 1 ? 'fila' : 'filas'}` : 'Sin ejecutar'}</span></div>{notice && <div role="status" class={`playground-notice ${notice.kind === 'error' ? 'is-error' : ''}`}>{notice.text}</div>}<Inspector root={work.resultVisible ? root : null} stale={stale} error={work.resultVisible ? parsed.error : null}/></section>
+        <PlaygroundQuery tables={tables} work={work} mode={mode} root={root} stale={stale} error={parsed.error} onModeChange={changeMode} onUndo={() => dispatch({ type: 'undo' })} onRedo={() => dispatch({ type: 'redo' })} onEdit={expression => dispatch({ type: 'edit', expression })} onExecute={() => execute()} onApply={expression => execute(expression, false)} onImport={() => fileInput.current?.click()}/>
+        <PlaygroundResults work={work} root={root} stale={stale} error={parsed.error} notice={notice}/>
       </div>
     </main>
   </div>;

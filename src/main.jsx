@@ -1,8 +1,8 @@
 import { render } from 'preact';
-import App from './App.jsx';
 import { useEffect, useState } from 'preact/hooks';
-import { Landing } from './components/Landing.jsx';
-import { Playground } from './components/Playground.jsx';
+import { LabPage } from './pages/LabPage.jsx';
+import { LandingPage } from './pages/LandingPage.jsx';
+import { PlaygroundPage } from './pages/PlaygroundPage.jsx';
 import './styles.css';
 
 function Site() {
@@ -17,7 +17,7 @@ function Site() {
     window.addEventListener('hashchange', navigate);
     return () => window.removeEventListener('hashchange', navigate);
   }, []);
-  return page === '#laboratorio' ? <App/> : page === '#playground' ? <Playground/> : <Landing/>;
+  return page === '#laboratorio' ? <LabPage/> : page === '#playground' ? <PlaygroundPage/> : <LandingPage/>;
 }
 
 render(<Site/>, document.getElementById('app'));
