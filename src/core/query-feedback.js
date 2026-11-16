@@ -46,13 +46,13 @@ export function diagnoseExpression(expression, tables) {
       hint = `Si es una columna, copia su nombre de la tabla original. Si es un valor de texto, usa comillas simples, por ejemplo: ${textExample}.`;
       position = expression.lastIndexOf(message.slice('Columna desconocida: '.length));
     } else if (message.includes('proyección')) {
-      hint = `Después de π, escribe columnas existentes separadas por comas, sin repetirlas, y la relación entre paréntesis. Ejemplo: π ${columns.slice(0, 2).join(', ')} (${table}).`;
+      hint = `Después de π, escribe columnas existentes separadas por comas, sin repetirlas, y la relación entre paréntesis. Si usas alias.columna, crea primero el alias con ρ. Ejemplo: π ${columns.slice(0, 2).join(', ')} (${table}).`;
     } else if (message.includes('distinto tipo')) {
       hint = `Escribe números sin comillas, por ejemplo: ${numberExample}. El texto lleva comillas simples, como ${textExample}.`;
     } else if (message.includes('Falta el valor')) {
       hint = `Añade un valor después del comparador. Ejemplo: σ ${numberExample} (${table}).`;
     } else if (message.includes('comparador') || message.includes('Condición incompleta')) {
-      hint = 'Usa columna, comparador y valor. Comparadores: =, !=, >, <, >=, <=. Une condiciones completas con and u or.';
+      hint = 'Usa columna, comparador y valor. Comparadores: =, !=, >, <, >=, <=. Une condiciones completas con and, ∧ u or.';
     } else if (message.includes('Símbolo no reconocido')) {
       position = Number(message.match(/posición (\d+)/)?.[1]) - 1;
       hint = "Usa los botones de símbolos y comillas simples para el texto. Los comparadores permitidos son =, !=, >, <, >= y <=.";
@@ -63,7 +63,7 @@ export function diagnoseExpression(expression, tables) {
     } else if (message.includes('mismas columnas') || message.includes('Tipos incompatibles')) {
       hint = 'Para ∪, − e ∩, las dos relaciones necesitan las mismas columnas y tipos. Proyecta las mismas columnas en ambos lados si es necesario.';
     } else if (message.startsWith('Texto inesperado')) {
-      hint = 'Entre dos relaciones escribe un operador como ⋈, ∪, − o ∩. En las condiciones utiliza and u or en minúsculas.';
+      hint = 'Entre dos relaciones escribe un operador como ⋈, ∪, − o ∩. En las condiciones utiliza and, ∧ u or.';
     }
     return { message, hint, ...(Number.isInteger(position) && position >= 0 ? { position } : {}) };
   }

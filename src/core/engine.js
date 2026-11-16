@@ -9,7 +9,7 @@ const dedupe = rows => [...new Map(rows.map(row => [key(row), row])).values()];
 
 function tokenize(text) {
   const tokens = [];
-  const re = /\s+|'(?:[^']|'')*'|-?\d+(?:\.\d+)?|!=|>=|<=|←|->|[A-Za-z_][\w]*|[σπρ⋈∪∩×−÷⟕⟖⟗⋉⋊▷]|[(){}:,.=><+*-]/gy;
+  const re = /\s+|'(?:[^']|'')*'|-?\d+(?:\.\d+)?|!=|>=|<=|←|->|[A-Za-z_][\w]*|[σπρ⋈∪∩×−÷⟕⟖⟗⋉⋊▷∧]|[(){}:,.=><+*-]/gy;
   let pos = 0;
   while (pos < text.length) {
     re.lastIndex = pos;
@@ -27,6 +27,14 @@ function literal(token) {
   return undefined;
 }
 
+function columnToken(tokens, index) {
+  const name = tokens[index];
+  if (/^[A-Za-z_]\w*$/.test(name || '') && tokens[index + 1] === '.' && /^[A-Za-z_]\w*$/.test(tokens[index + 2] || '')) {
+    return { name: name + '.' + tokens[index + 2], next: index + 3 };
+  }
+  return { name, next: index + 1 };
+}
+
 function node(label, cols, rows, children = [], declaredTypes = {}) {
   if (rows.length > MAX_ROWS) throw Error(ROW_LIMIT_ERROR);
   const types = Object.fromEntries(cols.map(col => [
@@ -39,8 +47,9 @@ function node(label, cols, rows, children = [], declaredTypes = {}) {
 function predicate(tokens, cols, types) {
   let pos = 0;
   function value() {
-    let token = tokens[pos++];
-    if (tokens[pos] === '.' && tokens[pos + 1]) { pos++; token += '.' + tokens[pos++]; }
+    const column = columnToken(tokens, pos);
+    const token = column.name;
+    pos = column.next;
     if (token === undefined) throw Error('Falta el valor de la condición. Ejemplo: precio > 1000000.');
     const parsed = literal(token);
     if (parsed !== undefined) return { get: () => parsed, type: typeof parsed };
@@ -73,7 +82,7 @@ function predicate(tokens, cols, types) {
   }
   function and() {
     let condition = comparison();
-    while (tokens[pos] === 'and') {
+    while (['and', '∧'].includes(tokens[pos])) {
       pos++;
       const next = comparison();
       const previous = condition;
@@ -233,7 +242,7 @@ function run(text, db, schemas = {}) {
     const args = [];
     let depth = 0;
     while (peek()) {
-      if (peek() === '(' && depth === 0 && args.length && !['and', 'or'].includes(args.at(-1))) break;
+      if (peek() === '(' && depth === 0 && args.length && !['and', 'or', '∧'].includes(args.at(-1))) break;
       const token = take();
       if (token === '(') depth++;
       if (token === ')') depth--;
@@ -264,8 +273,16 @@ function run(text, db, schemas = {}) {
       return node('ρ ' + args.join(' '), names, source.rows.map(row => Object.fromEntries(source.cols.map((col, index) => [names[index], row[col]]))), [source], Object.fromEntries(source.cols.map((col, index) => [names[index], source.types[col]])));
     }
     if (['pi', 'π'].includes(operator)) {
-      const cols = args.filter(token => token !== ',');
-      if (!cols.length || cols.some(col => !source.cols.includes(col))) throw Error('Revisa las columnas de la proyección');
+      const cols = [];
+      for (let index = 0; index < args.length;) {
+        if (args[index] === ',') { index++; continue; }
+        const column = columnToken(args, index);
+        cols.push(column.name);
+        index = column.next;
+      }
+      if (!cols.length) throw Error('Revisa las columnas de la proyección');
+      const missing = cols.find(col => !source.cols.includes(col));
+      if (missing) throw Error('Revisa las columnas de la proyección: ' + missing);
       if (new Set(cols).size !== cols.length) throw Error('Hay una columna repetida en la proyección.');
       return node('π ' + cols.join(', '), cols,
         source.rows.map(row => Object.fromEntries(cols.map(col => [col, row[col]]))), [source]);

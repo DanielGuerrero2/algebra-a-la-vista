@@ -6,6 +6,13 @@ const db = { Casa: [{ precio: 1500000, ciudad: 'Chih' }] };
 test('el editor distingue consultas válidas y relaciones vacías de errores', () => {
   assert.equal(diagnoseExpression('π ciudad (σ precio > 1000000 (Casa))', db), null);
   assert.equal(diagnoseExpression('σ precio > 9999999 (Casa)', db), null);
+  assert.equal(diagnoseExpression('π C.precio (ρ C (Casa))', db), null);
+});
+
+test('el editor explica el uso de alias en proyecciones calificadas', () => {
+  const diagnostic = diagnoseExpression('π C.inexistente (ρ C (Casa))', db);
+  assert.match(diagnostic.message, /C\.inexistente/);
+  assert.match(diagnostic.hint, /ρ/);
 });
 test('señala errores de sintaxis y da una corrección concreta', () => {
   const cases = [
