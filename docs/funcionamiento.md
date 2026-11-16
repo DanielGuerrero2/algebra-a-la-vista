@@ -79,8 +79,12 @@ Las rutas de esta tabla son relativas a la raíz del proyecto.
 | Archivo | Responsabilidad |
 | --- | --- |
 | `index.html` | Documento HTML, metadatos y contenedor `#app` |
-| `src/main.jsx` | Importa los estilos y monta `<App/>` |
-| `src/App.jsx` | Ensambla la pantalla, cambia modos y paneles, abre modales |
+| `src/main.jsx` | Importa los estilos, muestra Inicio en `/` y elige Laboratorio o Playground según el hash |
+| `src/pages/LabPage.jsx` | Coordina el Laboratorio: estado del panel, modos, acciones y diálogos |
+| `src/pages/LandingPage.jsx` y `src/components/LandingSections.jsx` | Estado de la demostración y secciones de la portada |
+| `src/pages/PlaygroundPage.jsx` y `src/components/PlaygroundSections.jsx` | Importación, sesión y persistencia; presentación de tablas, consulta y resultados |
+| `src/components/SiteHeader.jsx` y `SiteNavigation.jsx` | Marca y navegación comunes con espacios para controles de cada vista |
+| `src/components/LabSections.jsx` y `QueryControls.jsx` | Presentación del ejercicio, paneles y controles de modo e historial compartidos |
 | `src/hooks/useWorkspace.js` | Datos activos, ejecución, comprobación y persistencia |
 | `src/core/engine.js` | Tokenización, análisis y ejecución de expresiones |
 | `src/core/lab-model.js` | Conversión de símbolos, generación de consultas y comparación |
@@ -182,8 +186,8 @@ Los tipos de las tablas de ejemplo son `number` y `string`. Los teléfonos está
 ## 5. Arranque y navegación
 
 1. `index.html` carga `src/main.jsx`.
-2. `main.jsx` monta `App` dentro de `#app`.
-3. `App` llama a `useWorkspace()` para obtener datos y acciones.
+2. `main.jsx` muestra Inicio en `/` (y acepta `#inicio` por compatibilidad), o elige `#laboratorio` o `#playground`, y monta la vista dentro de `#app`.
+3. En el Laboratorio, `LabPage` llama a `useWorkspace()` para obtener datos y acciones. Las tres vistas usan el encabezado y la navegación comunes.
 4. El hook restaura la ubicación, borradores y progreso disponibles.
 5. Se crea una sesión para el ejercicio activo y se evalúa su expresión restaurada o tabla inicial.
 6. La pantalla muestra el constructor, el resultado y la navegación correspondiente.
@@ -229,7 +233,7 @@ Mientras `stale` sea verdadero, el hook entrega `root: null` al inspector. Así,
 
 - Si tiene éxito, confirma la expresión en la sesión y limpia avisos y comparaciones anteriores.
 - Si falla, conserva el texto intentado, muestra el mensaje y no añade esa expresión al historial válido.
-- Devuelve `true` o `false` para que `App` decida si cambia al panel Resultado.
+- Devuelve `true` o `false` para que `LabPage` decida si cambia al panel Resultado.
 
 Un `useMemo` evalúa `work.executed` para obtener el nodo raíz o el error que consume la interfaz. Por tanto, una ejecución puede llamar al motor una vez para validar y otra para producir el resultado derivado del estado.
 
@@ -274,7 +278,7 @@ Las palabras reconocidas están en minúsculas. El texto literal `'sigma join'` 
 
 `insert(symbol)` reemplaza la selección actual por el símbolo de un botón o lo inserta donde se encuentra el cursor. Añade un espacio después de los principales operadores y devuelve el foco al editor.
 
-El botón Ejecutar y el atajo Ctrl + Enter o Cmd + Enter llaman a `onExecute()`.
+El botón **Ejecutar** está al pie del editor en el Laboratorio y en la barra superior del Playground. El atajo Ctrl + Enter o Cmd + Enter también llama a `onExecute()`.
 
 ### 7.4 Revisión de expresiones y guía visual
 
@@ -295,6 +299,7 @@ En el laboratorio, los ejemplos corresponden a la base activa: `Casa`, `Producto
 | Tabla original | `Casa` |
 | Selección | `σ condición (relación)` o `sigma condición (relación)` |
 | Proyección | `π columna1, columna2 (relación)` o `pi ...` |
+| Proyección con alias | `π A.columna (ρ A (relación))` |
 | Join natural | `relación1 ⋈ relación2` o `join` |
 | Unión | `relación1 ∪ relación2` o `union` |
 | Diferencia | `relación1 − relación2` o `-` |
@@ -313,9 +318,10 @@ El producto cartesiano existe en el motor, aunque no aparece como operación pro
 - Los números se escriben sin comillas, con punto decimal cuando corresponda.
 - Se admiten números negativos.
 - Los comparadores son `=`, `!=`, `>`, `<`, `>=` y `<=`.
-- Las condiciones se combinan con `and` y `or`, en minúsculas.
-- `and` tiene mayor prioridad que `or`; se pueden agrupar condiciones con paréntesis.
+- Las condiciones se combinan con `and` o `∧`, y con `or` en minúsculas.
+- `and` y `∧` tienen mayor prioridad que `or`; se pueden agrupar condiciones con paréntesis.
 - Los nombres son sensibles a mayúsculas y minúsculas. Los identificadores admitidos comienzan con una letra ASCII o `_` y continúan con caracteres de palabra.
+- Después de `ρ A (Tabla)`, se puede usar `A.columna` en proyecciones, selecciones y condiciones de join. El alias debe existir en la relación de entrada.
 
 Ejemplo válido sobre Inmobiliaria:
 
@@ -546,7 +552,7 @@ La vista previa muestra el cambio de número de filas, las columnas resultantes 
 | `suggestJoinTable(relation, tables)` | Sugiere una tabla no usada con columnas comunes |
 | `builderIssue(config, relation)` | Localiza el primer campo incompleto o inválido para mostrarlo durante la edición |
 
-Al volver del editor al constructor, si hay cambios sin ejecutar, `App` intenta ejecutarlos primero. Si fallan, permanece en el editor.
+Al volver del editor al constructor, si hay cambios sin ejecutar, `LabPage` intenta ejecutarlos primero. Si fallan, permanece en el editor.
 
 ## 13. Altas, bajas y modificaciones
 
