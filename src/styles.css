@@ -311,6 +311,7 @@
 .query-chain-steps li:not(:last-child)::after { content: ""; position: absolute; left: calc(100% + 1px); width: 16px; height: 1px; background: #b4cbb9; }
 .query-chain-steps li[aria-current=step] { border-color: #a5c8b4; background: var(--color-soft); }
 .query-chain-index { display: grid; place-items: center; flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--color-canvas); border: 1px solid var(--color-line); color: var(--color-brand); font-size: 10px; }
+.query-chain-hint { display: none; }
 @media (max-width: 639px) { .query-chain { padding: 16px; } }
 
 /* Shared, interactive onboarding in the landing page and laboratory dialog. */
@@ -824,9 +825,13 @@
 }
 @media (max-width: 639px) {
   .lab-header { height: auto; min-height: 64px; flex-wrap: wrap; gap: 0; padding-block: 8px; }
-  .lab-header > .site-header-identity { width: 100%; min-height: 44px; }
-  .lab-header > .site-header-actions { width: 100%; margin-left: 0; }
+  .lab-header > .site-header-identity { flex: 0 0 100%; min-height: 44px; }
+  .lab-header > .site-header-actions { flex: 0 0 100%; min-width: 0; margin-left: 0; }
+  .lab-header .site-navigation { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .lab-header .site-navigation a { flex: 1; padding-inline: 4px; }
+  .query-chain-steps { scroll-snap-type: x mandatory; }
+  .query-chain-steps li { width: 100%; min-height: 88px; scroll-snap-align: end; }
+  .query-chain-hint { display: block; margin: -6px 0 10px; }
 }
 @media (max-width: 500px) {
   .playground-toolbar .site-header-actions { width: 100%; margin-left: 0; }
