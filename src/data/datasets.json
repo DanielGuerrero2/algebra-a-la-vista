@@ -479,5 +479,166 @@
       { "title": "4 Servicios y duración del vehículo 15554", "expression": "pi placaVehiculo, nombreServicio, tipo, horas_tra (sigma placaVehiculo = 15554 (Reparaciones join Servicios))", "description": "La columna tipo distingue los dos servicios con nombre Motor; horas_tra expresa la duración." },
       { "title": "5 Servicios de pintura y color del vehículo", "expression": "pi idReparacion, placaVehiculo, modelo, descripcionVehiuculo, fecha_rep (sigma nombreServicio = 'Pintura' (Reparaciones join Servicios join Vehiculos))", "description": "descripcionVehiuculo contiene el color y conserva la escritura de la tabla original." }
     ]
+  },
+  {
+    "title": "Veterinaria",
+    "relations": {
+      "Mascotas": [
+        {
+          "noRegMasc": 100,
+          "nomMasc": "Beky",
+          "raza": "Labrador",
+          "edadMasc": 4,
+          "tipo": "Canino",
+          "peso": 12,
+          "cveResponsable": 1
+        },
+        {
+          "noRegMasc": 200,
+          "nomMasc": "Rocky",
+          "raza": "Shih tzu",
+          "edadMasc": 5,
+          "tipo": "Canino",
+          "peso": 3.5,
+          "cveResponsable": 3
+        },
+        {
+          "noRegMasc": 300,
+          "nomMasc": "Chiken Litgter",
+          "raza": "Pelea",
+          "edadMasc": 2,
+          "tipo": "Ave",
+          "peso": 1.3,
+          "cveResponsable": 5
+        },
+        {
+          "noRegMasc": 400,
+          "nomMasc": "Piolin",
+          "raza": "Canario",
+          "edadMasc": 12,
+          "tipo": "Ave",
+          "peso": 0.2,
+          "cveResponsable": 7
+        },
+        {
+          "noRegMasc": 500,
+          "nomMasc": "Dolly",
+          "raza": "Esnauzer",
+          "edadMasc": 4,
+          "tipo": "Canino",
+          "peso": 2,
+          "cveResponsable": 3
+        },
+        {
+          "noRegMasc": 600,
+          "nomMasc": "Dolly",
+          "raza": "Chihuahua",
+          "edadMasc": 7,
+          "tipo": "Canino",
+          "peso": 0.8,
+          "cveResponsable": 1
+        }
+      ],
+      "Responsables": [
+        {
+          "cveResponsable": 1,
+          "nomResp": "Adrian Peinado",
+          "edadResp": 35,
+          "telefono": 61144567890
+        },
+        {
+          "cveResponsable": 3,
+          "nomResp": "Paulina Flores",
+          "edadResp": 17,
+          "telefono": 6142469873
+        },
+        {
+          "cveResponsable": 5,
+          "nomResp": "Vaslentil Eliozalde",
+          "edadResp": 29,
+          "telefono": 6397854621
+        },
+        {
+          "cveResponsable": 7,
+          "nomResp": "Silvestre",
+          "edadResp": 16,
+          "telefono": 6368946217
+        }
+      ],
+      "Concursos": [
+        {
+          "noConcurso": 1,
+          "fecha": "15/12/2021",
+          "premio": "Oro",
+          "noRegMasc": 200
+        },
+        {
+          "noConcurso": 2,
+          "fecha": "18/12/2021",
+          "premio": "Plata",
+          "noRegMasc": 500
+        },
+        {
+          "noConcurso": 3,
+          "fecha": "15/12/2021",
+          "premio": "Plata",
+          "noRegMasc": 100
+        },
+        {
+          "noConcurso": 4,
+          "fecha": "15/12/2021",
+          "premio": "Bronce",
+          "noRegMasc": 600
+        },
+        {
+          "noConcurso": 5,
+          "fecha": "19/12/2021",
+          "premio": "Oro",
+          "noRegMasc": 400
+        }
+      ]
+    },
+    "exercises": [
+      {
+        "title": "1 Razas caninas con oro y responsable menor de edad",
+        "expression": "pi raza (sigma tipo = 'Canino' and premio = 'Oro' and edadResp < 18 (Mascotas join Concursos join Responsables))",
+        "description": "Relaciona mascotas, concursos y responsables por sus claves. Busca la raza del canino que ganó Oro y cuya responsable tiene 17 años."
+      },
+      {
+        "title": "2 Alta de una mascota",
+        "expression": "Mascotas union { noRegMasc:number, nomMasc:string, raza:string, edadMasc:number, tipo:string, peso:number, cveResponsable:number 700, 'Luna', 'Mestizo', 2, 'Canino', 4.5, 9 }",
+        "description": "Agrega la mascota de ejemplo Luna, con clave 700, y conserva las seis filas originales. La clave de responsable 9 se usa en el reto siguiente; los retos parten de la base original."
+      },
+      {
+        "title": "3 Alta de un responsable",
+        "expression": "Responsables union { cveResponsable:number, nomResp:string, edadResp:number, telefono:number 9, 'Estudiante', 20, 6140000000 }",
+        "description": "El ejemplo representa al estudiante como responsable con clave 9. Usa exactamente estos valores para que la comprobación pueda comparar el resultado."
+      },
+      {
+        "title": "4 Alta de un concurso",
+        "expression": "Concursos union { noConcurso:number, fecha:string, premio:string, noRegMasc:number 6, '20/12/2021', 'Plata', 100 }",
+        "description": "Agrega un concurso de ejemplo para Beky, con clave 6 y premio Plata. Conserva los cinco concursos originales."
+      },
+      {
+        "title": "5 Edad de Dolly Chihuahua a cinco años",
+        "expression": "(Mascotas - (sigma nomMasc = 'Dolly' and raza = 'Chihuahua' (Mascotas))) union { noRegMasc:number, nomMasc:string, raza:string, edadMasc:number, tipo:string, peso:number, cveResponsable:number 600, 'Dolly', 'Chihuahua', 5, 'Canino', 0.8, 1 }",
+        "description": "Distingue a Dolly Chihuahua de Dolly Esnauzer. Retira la fila anterior y une la versión de cinco años sin cambiar el resto."
+      },
+      {
+        "title": "6 Baja de las aves",
+        "expression": "Mascotas - (sigma tipo = 'Ave' (Mascotas))",
+        "description": "Retira las mascotas de tipo Ave y conserva las columnas originales de Mascotas."
+      },
+      {
+        "title": "7 Mascotas premiadas el 15/12/2021",
+        "expression": "pi nomMasc (sigma fecha = '15/12/2021' (Mascotas join Concursos))",
+        "description": "Relaciona cada mascota con su concurso y filtra la fecha indicada. La proyección deja solamente los nombres."
+      },
+      {
+        "title": "8 Mascotas de Pedro Páramo",
+        "expression": "pi nomMasc (sigma nomResp = 'Pedro Paramo' (Mascotas join Responsables))",
+        "description": "Busca el nombre exacto Pedro Paramo en Responsables. Con los datos originales, el resultado es vacío."
+      }
+    ]
   }
 ]

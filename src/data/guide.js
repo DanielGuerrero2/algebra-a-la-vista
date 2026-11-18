@@ -36,6 +36,15 @@ export const GUIDE_EXAMPLES = [
       { title: 'Elige las columnas', expression: "π placaVehiculo, modelo (σ marca = 'Chevrolet' (Vehiculos))", text: 'La proyección muestra la placa y el modelo, sin columnas adicionales ni filas duplicadas.' },
     ],
   },
+  {
+    goal: 'Ver el nombre y la raza de las mascotas caninas menores de cinco años.',
+    join: 'Mascotas ⋈ Responsables',
+    steps: [
+      { title: 'Parte de una tabla', expression: 'Mascotas', text: 'Mascotas contiene los datos de las seis mascotas originales.' },
+      { title: 'Filtra las filas', expression: "σ tipo = 'Canino' and edadMasc < 5 (Mascotas)", text: 'La selección conserva solamente a las mascotas caninas menores de cinco años.' },
+      { title: 'Elige las columnas', expression: "π nomMasc, raza (σ tipo = 'Canino' and edadMasc < 5 (Mascotas))", text: 'La proyección muestra el nombre y la raza sin columnas adicionales.' },
+    ],
+  },
 ];
 
 const operationSettings = [
@@ -62,6 +71,12 @@ const operationSettings = [
     join: 'Vehiculos ⋈ Reparaciones',
     division: 'π placaVehiculo, codigoServicio (Reparaciones) ÷ π codigoServicio (Servicios)',
     divisionText: 'Busca vehículos que recibieron todos los servicios del catálogo.',
+  },
+  {
+    source: 'Mascotas', condition: "tipo = 'Canino'", subset: "tipo = 'Ave'",
+    join: 'Mascotas ⋈ Responsables',
+    division: 'π cveResponsable, noRegMasc (Mascotas) ÷ π noRegMasc (σ cveResponsable = 3 (Mascotas))',
+    divisionText: 'Busca responsables relacionados con todas las mascotas de Paulina Flores.',
   },
 ];
 

@@ -25,5 +25,14 @@ export const TASKS=[[
 'Muestra idReparacion, placaVehiculo, modelo, nombreServicio, fecha_rep y horas_tra de los trabajos realizados por Federico.',
 'Muestra placaVehiculo, nombreServicio, tipo y horas_tra de los servicios del vehículo 15554.',
 'Muestra idReparacion, placaVehiculo, modelo, descripcionVehiuculo y fecha_rep de los servicios de Pintura.'
+],[
+'Obtén las razas de mascotas de tipo Canino que ganaron Oro y cuyos responsables son menores de 18 años.',
+'Añade a Mascotas: noRegMasc 700, Luna, raza Mestizo, 2 años, tipo Canino, peso 4.5 y cveResponsable 9.',
+'Añádete como responsable de ejemplo: cveResponsable 9, nomResp Estudiante, edadResp 20 y telefono 6140000000.',
+'Añade a Concursos: noConcurso 6, fecha 20/12/2021, premio Plata y noRegMasc 100.',
+'Cambia a 5 años la edad de Dolly de raza Chihuahua. Conserva todas las demás mascotas y columnas.',
+'Retira todas las mascotas de tipo Ave. Devuelve Mascotas con sus columnas originales.',
+'Obtén los nombres de las mascotas que recibieron medalla en un concurso del 15/12/2021.',
+'Obtén los nombres de las mascotas cuyo responsable es Pedro Paramo.'
 ]];
 

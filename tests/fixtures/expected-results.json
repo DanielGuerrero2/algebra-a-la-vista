@@ -760,5 +760,319 @@
         ]
       }
     ]
+  },
+  {
+    "results": [
+      {
+        "cols": [
+          "raza"
+        ],
+        "rows": [
+          {
+            "raza": "Shih tzu"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "noRegMasc",
+          "nomMasc",
+          "raza",
+          "edadMasc",
+          "tipo",
+          "peso",
+          "cveResponsable"
+        ],
+        "rows": [
+          {
+            "noRegMasc": 100,
+            "nomMasc": "Beky",
+            "raza": "Labrador",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 12,
+            "cveResponsable": 1
+          },
+          {
+            "noRegMasc": 200,
+            "nomMasc": "Rocky",
+            "raza": "Shih tzu",
+            "edadMasc": 5,
+            "tipo": "Canino",
+            "peso": 3.5,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 300,
+            "nomMasc": "Chiken Litgter",
+            "raza": "Pelea",
+            "edadMasc": 2,
+            "tipo": "Ave",
+            "peso": 1.3,
+            "cveResponsable": 5
+          },
+          {
+            "noRegMasc": 400,
+            "nomMasc": "Piolin",
+            "raza": "Canario",
+            "edadMasc": 12,
+            "tipo": "Ave",
+            "peso": 0.2,
+            "cveResponsable": 7
+          },
+          {
+            "noRegMasc": 500,
+            "nomMasc": "Dolly",
+            "raza": "Esnauzer",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 2,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 600,
+            "nomMasc": "Dolly",
+            "raza": "Chihuahua",
+            "edadMasc": 7,
+            "tipo": "Canino",
+            "peso": 0.8,
+            "cveResponsable": 1
+          },
+          {
+            "noRegMasc": 700,
+            "nomMasc": "Luna",
+            "raza": "Mestizo",
+            "edadMasc": 2,
+            "tipo": "Canino",
+            "peso": 4.5,
+            "cveResponsable": 9
+          }
+        ]
+      },
+      {
+        "cols": [
+          "cveResponsable",
+          "nomResp",
+          "edadResp",
+          "telefono"
+        ],
+        "rows": [
+          {
+            "cveResponsable": 1,
+            "nomResp": "Adrian Peinado",
+            "edadResp": 35,
+            "telefono": 61144567890
+          },
+          {
+            "cveResponsable": 3,
+            "nomResp": "Paulina Flores",
+            "edadResp": 17,
+            "telefono": 6142469873
+          },
+          {
+            "cveResponsable": 5,
+            "nomResp": "Vaslentil Eliozalde",
+            "edadResp": 29,
+            "telefono": 6397854621
+          },
+          {
+            "cveResponsable": 7,
+            "nomResp": "Silvestre",
+            "edadResp": 16,
+            "telefono": 6368946217
+          },
+          {
+            "cveResponsable": 9,
+            "nomResp": "Estudiante",
+            "edadResp": 20,
+            "telefono": 6140000000
+          }
+        ]
+      },
+      {
+        "cols": [
+          "noConcurso",
+          "fecha",
+          "premio",
+          "noRegMasc"
+        ],
+        "rows": [
+          {
+            "noConcurso": 1,
+            "fecha": "15/12/2021",
+            "premio": "Oro",
+            "noRegMasc": 200
+          },
+          {
+            "noConcurso": 2,
+            "fecha": "18/12/2021",
+            "premio": "Plata",
+            "noRegMasc": 500
+          },
+          {
+            "noConcurso": 3,
+            "fecha": "15/12/2021",
+            "premio": "Plata",
+            "noRegMasc": 100
+          },
+          {
+            "noConcurso": 4,
+            "fecha": "15/12/2021",
+            "premio": "Bronce",
+            "noRegMasc": 600
+          },
+          {
+            "noConcurso": 5,
+            "fecha": "19/12/2021",
+            "premio": "Oro",
+            "noRegMasc": 400
+          },
+          {
+            "noConcurso": 6,
+            "fecha": "20/12/2021",
+            "premio": "Plata",
+            "noRegMasc": 100
+          }
+        ]
+      },
+      {
+        "cols": [
+          "noRegMasc",
+          "nomMasc",
+          "raza",
+          "edadMasc",
+          "tipo",
+          "peso",
+          "cveResponsable"
+        ],
+        "rows": [
+          {
+            "noRegMasc": 100,
+            "nomMasc": "Beky",
+            "raza": "Labrador",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 12,
+            "cveResponsable": 1
+          },
+          {
+            "noRegMasc": 200,
+            "nomMasc": "Rocky",
+            "raza": "Shih tzu",
+            "edadMasc": 5,
+            "tipo": "Canino",
+            "peso": 3.5,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 300,
+            "nomMasc": "Chiken Litgter",
+            "raza": "Pelea",
+            "edadMasc": 2,
+            "tipo": "Ave",
+            "peso": 1.3,
+            "cveResponsable": 5
+          },
+          {
+            "noRegMasc": 400,
+            "nomMasc": "Piolin",
+            "raza": "Canario",
+            "edadMasc": 12,
+            "tipo": "Ave",
+            "peso": 0.2,
+            "cveResponsable": 7
+          },
+          {
+            "noRegMasc": 500,
+            "nomMasc": "Dolly",
+            "raza": "Esnauzer",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 2,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 600,
+            "nomMasc": "Dolly",
+            "raza": "Chihuahua",
+            "edadMasc": 5,
+            "tipo": "Canino",
+            "peso": 0.8,
+            "cveResponsable": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "noRegMasc",
+          "nomMasc",
+          "raza",
+          "edadMasc",
+          "tipo",
+          "peso",
+          "cveResponsable"
+        ],
+        "rows": [
+          {
+            "noRegMasc": 100,
+            "nomMasc": "Beky",
+            "raza": "Labrador",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 12,
+            "cveResponsable": 1
+          },
+          {
+            "noRegMasc": 200,
+            "nomMasc": "Rocky",
+            "raza": "Shih tzu",
+            "edadMasc": 5,
+            "tipo": "Canino",
+            "peso": 3.5,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 500,
+            "nomMasc": "Dolly",
+            "raza": "Esnauzer",
+            "edadMasc": 4,
+            "tipo": "Canino",
+            "peso": 2,
+            "cveResponsable": 3
+          },
+          {
+            "noRegMasc": 600,
+            "nomMasc": "Dolly",
+            "raza": "Chihuahua",
+            "edadMasc": 7,
+            "tipo": "Canino",
+            "peso": 0.8,
+            "cveResponsable": 1
+          }
+        ]
+      },
+      {
+        "cols": [
+          "nomMasc"
+        ],
+        "rows": [
+          {
+            "nomMasc": "Beky"
+          },
+          {
+            "nomMasc": "Rocky"
+          },
+          {
+            "nomMasc": "Dolly"
+          }
+        ]
+      },
+      {
+        "cols": [
+          "nomMasc"
+        ],
+        "rows": []
+      }
+    ]
   }
 ]

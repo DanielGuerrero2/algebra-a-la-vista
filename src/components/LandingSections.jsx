@@ -53,7 +53,7 @@ export function LandingGuide({ data }) {
 
 export function LandingMethod() {
   return <section class="landing-method" aria-label="Cómo funciona el laboratorio">
-    {[['01', 'Construye', 'Elige una tabla y aplica operaciones con el constructor visual o el editor de símbolos.'], ['02', 'Explora', 'Recorre los pasos de tu consulta y observa cómo se transforma cada relación.'], ['03', 'Comprueba', 'Resuelve ejercicios de las cuatro bases con pistas para avanzar.']].map(([number, title, description]) => <article key={number}><span class="landing-step">{number}</span><div><h2>{title}</h2><p>{description}</p></div></article>)}
+    {[['01', 'Construye', 'Elige una tabla y aplica operaciones con el constructor visual o el editor de símbolos.'], ['02', 'Explora', 'Recorre los pasos de tu consulta y observa cómo se transforma cada relación.'], ['03', 'Comprueba', 'Resuelve ejercicios de las cinco bases con pistas para avanzar.']].map(([number, title, description]) => <article key={number}><span class="landing-step">{number}</span><div><h2>{title}</h2><p>{description}</p></div></article>)}
   </section>;
 }
 

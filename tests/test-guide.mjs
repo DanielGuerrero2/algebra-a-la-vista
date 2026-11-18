@@ -10,9 +10,10 @@ const expected = [
   [{ descripcion: 'Boliler 30 g', precio: 3000 }, { descripcion: 'Calentor Espa¤o', precio: 2530 }],
   [{ titulo: 'Estructura de Datos', pagunas: 568 }, { titulo: 'Inteligencia Artificial', pagunas: 805 }],
   [{ placaVehiculo: 15554, modelo: 'Nova' }, { placaVehiculo: 16653, modelo: 'Spark' }, { placaVehiculo: 16654, modelo: 'Aveo' }],
+  [{ nomMasc: 'Beky', raza: 'Labrador' }, { nomMasc: 'Dolly', raza: 'Esnauzer' }],
 ];
 
-test('la guía muestra transformaciones reales y resultados correctos en las cuatro bases', () => {
+test('la guía muestra transformaciones reales y resultados correctos en las cinco bases', () => {
   const original = JSON.stringify(datasets);
   assert.equal(GUIDE_EXAMPLES.length, datasets.length);
   GUIDE_EXAMPLES.forEach((example, index) => {

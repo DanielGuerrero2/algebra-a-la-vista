@@ -19,7 +19,7 @@ const keyFor = location => `${location.dataset}:${location.exercise ?? 'free'}`;
 function load(location, drafts) {
   const data = datasets[location.dataset];
   const saved = drafts[keyFor(location)] || {};
-  const initial = data.exercises[location.exercise]?.expression.match(/\b(?:Vendedor|Casa|Ventas|Clientes|Productos|Venta|Libro|Autor|Editorial)\b/)?.[0];
+  const initial = Object.keys(data.relations).find(name => new RegExp(`\\b${name}\\b`).test(data.exercises[location.exercise]?.expression || ''));
   const source = Object.hasOwn(data.relations, saved.source) ? saved.source : initial || Object.keys(data.relations)[0];
   return createSession(source, saved);
 }

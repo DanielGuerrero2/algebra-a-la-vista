@@ -85,4 +85,14 @@ export const EXPLANATIONS = [
     { result: 'Aparecen seis servicios y sus horas para el vehículo 15554.', reason: 'La reunión aporta el nombre y tipo de cada servicio a las reparaciones. La selección restringe la placa y la proyección conserva las horas y los datos solicitados.' },
     { result: 'Aparecen cuatro reparaciones de Pintura con el color de cada vehículo.', reason: 'La reunión conecta reparación, servicio y vehículo. La selección identifica Pintura y la proyección conserva descripcionVehiuculo como color.' },
   ],
+  [
+    { result: 'Aparece la raza Shih tzu de Rocky.', reason: 'Rocky es Canino, ganó Oro y su responsable Paulina tiene 17 años. La reunión relaciona las tres tablas y la proyección conserva solo raza.' },
+    { result: 'Luna aparece junto a las seis mascotas originales.', reason: 'La unión agrega una fila con el mismo esquema de Mascotas. Cada reto parte de los datos originales, por lo que el responsable 9 se registra en un reto separado.' },
+    { result: 'El responsable Estudiante aparece junto a los cuatro originales.', reason: 'La unión incorpora el registro de ejemplo con el mismo esquema de Responsables. En tu propia práctica libre puedes sustituir estos datos por los tuyos.' },
+    { result: 'El concurso 6 se agrega a los cinco existentes.', reason: 'La unión agrega una fila con las mismas columnas de Concursos y conserva los registros originales.' },
+    { result: 'Dolly Chihuahua tiene cinco años y Dolly Esnauzer mantiene cuatro.', reason: 'La selección usa nombre y raza para identificar solo a la Chihuahua; la diferencia retira la versión anterior y la unión agrega la actualizada.' },
+    { result: 'Permanecen las cuatro mascotas de tipo Canino.', reason: 'La selección identifica las dos aves y la diferencia las retira, preservando todas las columnas de Mascotas.' },
+    { result: 'Aparecen Beky, Rocky y Dolly.', reason: 'La reunión conecta Mascotas con Concursos mediante noRegMasc. La selección conserva la fecha y la proyección devuelve solo nomMasc.' },
+    { result: 'El resultado está vacío: Pedro Paramo no figura en Responsables.', reason: 'La reunión conecta cada mascota con su responsable; la selección por nomResp no encuentra coincidencias y la proyección conserva el esquema nomMasc.' },
+  ],
 ];

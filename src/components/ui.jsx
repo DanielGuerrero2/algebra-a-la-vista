@@ -8,6 +8,8 @@ const paths = {
   menu: 'M4 6h16M4 12h16M4 18h16', table: 'M3 4h18v16H3V4Zm0 5h18M9 9v11',
   help: 'M9 8a3 3 0 1 1 5 2c-1 1-2 1-2 4m0 3v.1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z',
   plus: 'M12 5v14M5 12h14', reset: 'M3 4v6h6M3 10a9 9 0 1 1 1 8',
+  edit: 'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4L16.5 3.5Z',
+  trash: 'M4 7h16M10 7V4h4v3m4 0-1 13H7L6 7m4 4v5m4-5v5',
   book: 'M3 4h7l2 2 2-2h7v16h-7l-2 2-2-2H3V4Zm9 2v16',
 };
 export function Icon({ name, size = 16, className = '' }) {

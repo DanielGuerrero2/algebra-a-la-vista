@@ -36,7 +36,7 @@ Este documento explica la aplicación desde su uso hasta la implementación: arq
 
 Las consultas trabajan sobre datos incluidos en la aplicación. Las altas, bajas y modificaciones producen nuevas relaciones como resultado; no sobrescriben las tablas originales. Una consulta posterior puede continuar transformando ese resultado porque su expresión contiene las operaciones anteriores.
 
-La aplicación dispone de 23 ejercicios y de práctica libre. La comprobación de ejercicios compara resultados sobre los datos de ejemplo. No demuestra que dos consultas sean equivalentes para cualquier base de datos.
+La aplicación dispone de 31 ejercicios y de práctica libre. La comprobación de ejercicios compara resultados sobre los datos de ejemplo. No demuestra que dos consultas sean equivalentes para cualquier base de datos.
 
 El procesamiento relacional y el almacenamiento del trabajo se realizan en el navegador. La aplicación no utiliza un servidor SQL para ejecutar las consultas. El alojamiento puede exigir iniciar sesión para visitar el sitio; ese acceso es independiente del motor relacional y del guardado local del progreso.
 
@@ -131,7 +131,7 @@ autor:number, nombre:string
 
 Cada relación declara sus columnas y tipos (`number` o `string`, sin distinguir mayúsculas). Las filas de texto pueden ir entre comillas simples o sin ellas; las comillas son necesarias si el valor contiene comas. Se permiten comentarios de línea iniciados con `--`. El archivo se valida completo antes de agregar sus tablas. Todas las filas deben tener las mismas columnas y cada columna debe mantener su tipo (`string` o `number`). No se aceptan celdas vacías, nombres fuera del patrón `[A-Za-z_][A-Za-z_0-9]*`, archivos de más de 2 MB ni tablas de más de 20 000 filas.
 
-El playground guarda sus tablas, la tabla seleccionada, la expresión, el historial y el modo de edición en `localStorage`, bajo la clave `playground-work-v1`, separada de las claves del laboratorio. Al regresar o recargar, restaura el trabajo y recalcula los resultados sin almacenarlos. El estado serializado tiene un límite de 2 MB; si lo supera o el navegador rechaza la escritura, el trabajo continúa en la pestaña y se muestra un aviso, mientras se conserva el último guardado válido. Un guardado dañado se ignora y se muestra un aviso. Las bases de ejemplo no se modifican.
+El playground permite crear, renombrar, seleccionar y eliminar proyectos. Cada proyecto tiene sus propias tablas, pestañas de consulta y modo de edición; los nombres de tabla pueden repetirse en proyectos distintos. Las pestañas de consulta se crean con «Nueva consulta» y cada una conserva su tabla de origen, expresión, historial y resultado. Se puede cerrar cualquier pestaña salvo la última de cada proyecto. El playground guarda los proyectos y el proyecto activo en `localStorage`, bajo la clave `playground-work-v1`, separada de las claves del laboratorio. Los guardados anteriores sin proyectos se restauran dentro de «Proyecto 1». Al regresar o recargar, restaura el trabajo y recalcula los resultados sin almacenarlos. El estado serializado tiene un límite de 2 MB para todos los proyectos juntos; si lo supera o el navegador rechaza la escritura, el trabajo continúa en la pestaña y se muestra un aviso, mientras se conserva el último guardado válido. Un guardado dañado se ignora y se muestra un aviso. Las bases de ejemplo no se modifican.
 
 Cada base contiene `title`, `relations` y `exercises`. Las relaciones son arreglos de objetos JavaScript. Cada objeto es una fila y cada propiedad es una columna.
 
@@ -164,6 +164,7 @@ Ejemplo ilustrativo de estructura:
 | Ventas y clientes | 7 | `Clientes`: 4; `Productos`: 5; `Venta`: 6 |
 | Biblioteca | 6 | `Libro`: 5; `Autor`: 5; `Editorial`: 4 |
 | Servicios de vehículos | 5 | `Mecanicos`: 3; `Vehiculos`: 5; `Servicios`: 6; `Reparaciones`: 17 |
+| Veterinaria | 8 | `Mascotas`: 6; `Responsables`: 4; `Concursos`: 5 |
 
 ### 4.2 Esquemas
 
@@ -178,10 +179,15 @@ Ejemplo ilustrativo de estructura:
 | `Libro` | `numSerie`, `titulo`, `tema`, `cveAutor`, `cveEdit`, `pagunas` |
 | `Autor` | `cveAutor`, `nombre`, `apellido`, `nacionalidad`, `profecion` |
 | `Editorial` | `cveEdit`, `editorial`, `direccion`, `ciudad`, `pais` |
+| `Mascotas` | `noRegMasc`, `nomMasc`, `raza`, `edadMasc`, `tipo`, `peso`, `cveResponsable` |
+| `Responsables` | `cveResponsable`, `nomResp`, `edadResp`, `telefono` |
+| `Concursos` | `noConcurso`, `fecha`, `premio`, `noRegMasc` |
 
 Se conserva la escritura original de campos como `colonea`, `pagunas` y `profecion`. Las consultas deben utilizar esos nombres exactos. `Venta` y `Ventas` son relaciones diferentes y pertenecen a bases distintas.
 
 Los tipos de las tablas de ejemplo son `number` y `string`. Los teléfonos están almacenados como números y `fecha` como texto; no existe un tipo fecha específico en el intérprete.
+
+La base Veterinaria conserva los nombres y valores del archivo QueryRelax adjunto, incluidos los textos `Chiken Litgter` y `Vaslentil Eliozalde`. Los seis puntos de la hoja se presentan como ocho retos porque el alta libre de una fila en cada tabla se divide en tres resultados comprobables. Sus valores de alta son ejemplos explícitos; los ejercicios parten independientemente de las tablas originales. La consulta de Pedro Paramo devuelve una relación vacía porque ese responsable no aparece en los datos. Las fechas de Concursos se comparan como texto en formato `DD/MM/AAAA`.
 
 ## 5. Arranque y navegación
 
@@ -288,7 +294,7 @@ Una consulta válida muestra una confirmación; una inválida muestra el error d
 
 La portada incluye la sección `#guia` y el acceso directo `#operaciones`. El botón **Guía** y la invitación **Abrir guía visual** del laboratorio abren el mismo componente dentro de un diálogo. La guía muestra datos reales: tabla original → selección de filas → proyección de columnas. Después ofrece ejemplos independientes de join natural, unión, diferencia, intersección y división. El selector muestra las dos relaciones de entrada, la expresión y el resultado calculados por el intérprete. Incluye plantillas de sintaxis, instrucciones para el constructor y el editor, un diccionario y errores frecuentes.
 
-En el laboratorio, los ejemplos corresponden a la base activa: `Casa`, `Productos`, `Libro` o `Vehiculos`. **Cargar ejemplo en el editor** carga la expresión que se muestra, reemplaza el borrador de la consulta y abre el editor; el usuario pulsa **Ejecutar** para aplicarla. Recorrer la demostración no cambia el trabajo del laboratorio. Los ejemplos viven en `src/data/guide.js`, en el mismo orden que `datasets.json`; deben actualizarse juntos si se añaden o reordenan bases. Se mantienen las claves de almacenamiento existentes. El producto cartesiano está disponible en el editor, pero no en el constructor visual; las altas, bajas y modificaciones se explican en los ejercicios.
+En el laboratorio, los ejemplos corresponden a la base activa: `Casa`, `Productos`, `Libro`, `Vehiculos` o `Mascotas`. **Cargar ejemplo en el editor** carga la expresión que se muestra, reemplaza el borrador de la consulta y abre el editor; el usuario pulsa **Ejecutar** para aplicarla. Recorrer la demostración no cambia el trabajo del laboratorio. Los ejemplos viven en `src/data/guide.js`, en el mismo orden que `datasets.json`; deben actualizarse juntos si se añaden o reordenan bases. Se mantienen las claves de almacenamiento existentes. El producto cartesiano está disponible en el editor, pero no en el constructor visual; las altas, bajas y modificaciones se explican en los ejercicios.
 
 ## 8. Lenguaje de consultas
 
@@ -785,12 +791,13 @@ No hay un comando de lint ni de comprobación de TypeScript declarado en `packag
 
 | Archivo | Cobertura |
 | --- | --- |
-| `tests/test-engine.cjs` | Los 23 resultados completos contra `tests/fixtures/expected-results.json` y 9 comprobaciones adicionales de operadores y errores |
+| `tests/test-engine.cjs` | Los 31 resultados completos contra `tests/fixtures/expected-results.json` y 9 comprobaciones adicionales de operadores y errores |
+| `tests/test-veterinaria.mjs` | Tablas, ocho retos y resultados de referencia de Veterinaria |
 | `tests/test-regressions.cjs` | 6 casos: consulta vacía, agrupación lógica, negativos, condición incompleta, columna proyectada duplicada y tipos incompatibles |
 | `tests/test-builder.cjs` | Generación de operaciones, conversión de símbolos, sugerencias de join y comparación |
 | `tests/test-session.mjs` | 5 pruebas de edición, deshacer/rehacer, ejecución inválida, restauración y límite del historial |
 | `tests/test-operations.mjs` | Operaciones relacionales, modificaciones, cadenas y tipos de relaciones vacías |
-| `tests/test-guide.mjs` | Resultados independientes de las cuatro demostraciones y conservación de los datos originales |
+| `tests/test-guide.mjs` | Resultados independientes de las cinco demostraciones y conservación de los datos originales |
 | `tests/test-query-feedback.mjs` | Diagnósticos y correcciones, consultas válidas vacías, comillas escapadas y sugerencias según la base |
 | `tests/test-completion.mjs` | Progreso al completar ejercicios y explicaciones asociadas |
 
