@@ -79,8 +79,9 @@ Las rutas de esta tabla son relativas a la raíz del proyecto.
 | Archivo | Responsabilidad |
 | --- | --- |
 | `index.html` | Documento HTML, metadatos y contenedor `#app` |
-| `src/main.jsx` | Importa los estilos, muestra Inicio en `/` y elige Laboratorio o Playground según el hash |
+| `src/main.jsx` | Importa los estilos, muestra Inicio en `/` y elige la vista según el hash |
 | `src/pages/LabPage.jsx` | Coordina el Laboratorio: estado del panel, modos, acciones y diálogos |
+| `src/pages/FirstQueryPage.jsx` | Práctica introductoria con la tabla `Casa` y una sesión temporal |
 | `src/pages/LandingPage.jsx` y `src/components/LandingSections.jsx` | Estado de la demostración y secciones de la portada |
 | `src/pages/PlaygroundPage.jsx` y `src/components/PlaygroundSections.jsx` | Importación, sesión y persistencia; presentación de tablas, consulta y resultados |
 | `src/components/SiteHeader.jsx` y `SiteNavigation.jsx` | Marca y navegación comunes con espacios para controles de cada vista |
@@ -109,7 +110,13 @@ Las rutas de esta tabla son relativas a la raíz del proyecto.
 
 ## 4. Datos y ejercicios
 
+### Primera consulta guiada
+
+La demostración y la guía visual enlazan a `#primera-consulta`. La práctica abre `Casa` y pide filtrar las filas con `precio > 1000000`. Al ejecutar, el sitio compara el resultado con el paso de selección de la guía. La práctica es temporal y no modifica el progreso ni los borradores del laboratorio.
+
 ### Playground con archivos propios
+
+En un proyecto vacío, **Cargar tabla de ejemplo** abre `Casa` en un proyecto nuevo con el constructor visual seleccionado. El proyecto se guarda en el navegador como cualquier otro proyecto del Playground.
 
 La ruta `#playground` abre una sección independiente del laboratorio. Cada archivo CSV o JSON válido crea una tabla cuyo nombre es el del archivo sin extensión. Se pueden cargar varias tablas y consultarlas juntas con el constructor visual o el editor de símbolos. Su pantalla es un espacio de trabajo continuo: barra de importación arriba, tablas en una barra lateral estrecha a la izquierda y, a la derecha, editor amplio arriba y resultados debajo. En pantallas estrechas, estas zonas se apilan en el mismo orden.
 
@@ -292,7 +299,7 @@ Al dejar de escribir durante 500 ms, el editor revisa la expresión con `diagnos
 
 Una consulta válida muestra una confirmación; una inválida muestra el error del intérprete y una sugerencia de corrección. Se contemplan comillas y paréntesis sin cerrar, nombres desconocidos, proyecciones, comparadores, valores ausentes y tipos incompatibles. Los ejemplos de corrección utilizan nombres de la base activa. Cuando se conoce la posición, **Señalar en el editor** enfoca y selecciona el carácter correspondiente. El campo comunica su error mediante `aria-invalid` y enlaza el diagnóstico con `aria-describedby`. Las relaciones vacías válidas se aceptan.
 
-La portada incluye la sección `#guia` y el acceso directo `#operaciones`. El botón **Guía** y la invitación **Abrir guía visual** del laboratorio abren el mismo componente dentro de un diálogo. La guía muestra datos reales: tabla original → selección de filas → proyección de columnas. Después ofrece ejemplos independientes de join natural, unión, diferencia, intersección y división. El selector muestra las dos relaciones de entrada, la expresión y el resultado calculados por el intérprete. Incluye plantillas de sintaxis, instrucciones para el constructor y el editor, un diccionario y errores frecuentes.
+La portada incluye la sección `#guia` y el acceso directo `#operaciones`. El botón **Guía visual**, junto al enunciado del laboratorio, abre el mismo componente dentro de un diálogo. La guía muestra datos reales: tabla original → selección de filas → proyección de columnas. Después ofrece ejemplos independientes de join natural, unión, diferencia, intersección y división. El selector muestra las dos relaciones de entrada, la expresión y el resultado calculados por el intérprete. Incluye plantillas de sintaxis, instrucciones para el constructor y el editor, un diccionario y errores frecuentes.
 
 En el laboratorio, los ejemplos corresponden a la base activa: `Casa`, `Productos`, `Libro`, `Vehiculos` o `Mascotas`. **Cargar ejemplo en el editor** carga la expresión que se muestra, reemplaza el borrador de la consulta y abre el editor; el usuario pulsa **Ejecutar** para aplicarla. Recorrer la demostración no cambia el trabajo del laboratorio. Los ejemplos viven en `src/data/guide.js`, en el mismo orden que `datasets.json`; deben actualizarse juntos si se añaden o reordenan bases. Se mantienen las claves de almacenamiento existentes. El producto cartesiano está disponible en el editor, pero no en el constructor visual; las altas, bajas y modificaciones se explican en los ejercicios.
 

@@ -6,11 +6,13 @@ import { Sidebar } from '../components/Sidebar.jsx';
 import { DataTable } from '../components/DataTable.jsx';
 import { run } from '../core/engine.js';
 import { VisualGuide } from '../components/VisualGuide.jsx';
+import { WorkspaceNotice } from '../components/WorkspaceUI.jsx';
 import { SiteHeader } from '../components/SiteHeader.jsx';
 import { ExerciseBrief, LabQueryPanel, LabResultPanel } from '../components/LabSections.jsx';
 
 export function LabPage() {
   const w = useWorkspace();
+  const checkNotice = w.notice?.source === 'check' ? w.notice : null;
   const [mode, setMode] = useState('visual');
   const [mobileView, setMobileView] = useState('query');
   const [menu, setMenu] = useState(false);
@@ -23,7 +25,6 @@ export function LabPage() {
     desktop.addEventListener('change', closeDrawer);
     return () => desktop.removeEventListener('change', closeDrawer);
   }, []);
-  const errorTone = w.notice?.kind === 'error' ? 'border-red-200 bg-red-50 text-red-900' : w.notice?.kind === 'warning' ? 'border-amber-200 bg-amber-50 text-amber-900' : 'border-brand/15 bg-soft text-brand';
 
   function switchMode(next) {
     if (next === 'visual' && w.stale && !w.execute(undefined, false)) return;
@@ -53,19 +54,17 @@ export function LabPage() {
   }
 
   return <div class="lab-shell relative flex h-dvh min-h-0 flex-col bg-canvas">
-    <a href="#workspace" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-4">Ir al laboratorio</a>
-    <SiteHeader current="laboratorio" className="lab-header" inert={menu} beforeBrand={<Button variant="ghost" aria-label="Abrir navegación" aria-controls="lab-navigation" aria-expanded={menu} className="lg:hidden" onClick={() => setMenu(true)}><Icon name="menu"/></Button>} afterBrand={<span class="lab-header-dataset truncate text-xs font-semibold">{w.data.title}</span>}/>
+    <SiteHeader current="laboratorio" mainId="workspace" className="lab-header workspace-header" inert={menu} beforeBrand={<Button variant="ghost" aria-label="Abrir navegación" aria-controls="lab-navigation" aria-expanded={menu} className="lg:hidden" onClick={() => setMenu(true)}><Icon name="menu"/></Button>} afterBrand={<span class="site-context lab-header-dataset">{w.data.title}</span>}/>
     <div class="flex min-h-0 flex-1">
       <Sidebar workspace={w} open={menu} onClose={() => setMenu(false)} onInspect={name => setModal({ type: 'table', name })}/>
-      <main id="workspace" tabIndex={-1} inert={menu || undefined} class="lab-workspace min-h-0 min-w-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6 xl:px-8 xl:py-7">
+      <main id="workspace" tabIndex={-1} inert={menu || undefined} class="lab-workspace min-h-0 min-w-0 flex-1 overflow-y-auto px-4 py-5 sm:px-5 2xl:px-8 2xl:py-7">
         <div class="mx-auto max-w-[1480px]">
-          <ExerciseBrief workspace={w} onSolution={() => { w.solution(); setMode('code'); }} onCheck={checkExercise}/>
-          <div class="guide-invitation"><div><img class="lab-guide-art" src={`${import.meta.env.BASE_URL}assets/illustrations/ilustracion-guia-laboratorio-lupa-320.png`} width="320" height="160" alt="" decoding="async"/><p><strong>¿Primera vez por aquí?</strong> Mira cómo una expresión se convierte en una tabla.</p></div><Button variant="ghost" onClick={() => setModal({ type: 'help' })}>Abrir guía visual <Icon name="arrow"/></Button></div>
-          {w.notice && <div id="feedback" role="status" class={`mb-4 flex items-start gap-3 rounded-lg border p-3.5 text-xs leading-relaxed ${errorTone}`}><span class="mt-0.5 shrink-0">{w.notice.kind === 'success' ? <Icon name="check"/> : <Icon name="help"/>}</span>{w.notice.text}</div>}
-          <div class="workspace-switch mb-4 flex gap-1 rounded-lg border border-line bg-white p-1 xl:hidden" role="group" aria-label="Panel visible"><button aria-pressed={mobileView === 'query'} aria-controls="query-panel" class={`flex-1 rounded-md py-2 text-xs ${mobileView === 'query' ? 'bg-brand text-white' : 'text-muted'}`} onClick={() => showPanel('query')}>01 · Consulta</button><button aria-pressed={mobileView === 'result'} aria-controls="result-panel" class={`flex-1 rounded-md py-2 text-xs ${mobileView === 'result' ? 'bg-brand text-white' : 'text-muted'}`} onClick={() => showPanel('result')}>02 · Resultado {w.work.resultVisible && w.root && <span class="ml-1 text-[10px]">({w.root.rows.length})</span>}</button></div>
-          <div class="workspace-grid grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)]">
+          <ExerciseBrief workspace={w} onSolution={() => { w.solution(); setMode('code'); }} onCheck={checkExercise} onGuide={() => setModal({ type: 'help' })}/>
+          <WorkspaceNotice id="feedback" notice={checkNotice ? null : w.notice}/>
+          <div class="workspace-switch mb-4 flex gap-1 rounded-lg border border-line bg-white p-1 xl:hidden" role="group" aria-label="Panel visible"><button aria-pressed={mobileView === 'query'} aria-controls="query-panel" class={`flex-1 rounded-md py-2 text-xs ${mobileView === 'query' ? 'bg-brand text-white' : 'text-muted'}`} onClick={() => showPanel('query')}>Consulta</button><button aria-pressed={mobileView === 'result'} aria-controls="result-panel" class={`flex-1 rounded-md py-2 text-xs ${mobileView === 'result' ? 'bg-brand text-white' : 'text-muted'}`} onClick={() => showPanel('result')}>Resultados {w.work.resultVisible && w.root && <span class="ml-1 text-[10px]">({w.root.rows.length})</span>}</button></div>
+          <div class="workspace-grid grid items-start gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] 2xl:gap-5">
             <LabQueryPanel workspace={w} mode={mode} mobileView={mobileView} editorFocusRequest={editorFocusRequest} onModeChange={switchMode} onShowResult={showResult} onShowEditor={() => setMode('code')}/>
-            <LabResultPanel workspace={w} mobileView={mobileView}/>
+            <LabResultPanel workspace={w} mobileView={mobileView} notice={checkNotice}/>
           </div>
           <footer class="mt-5 flex flex-wrap items-center justify-between gap-3 pb-2 text-[10px] text-muted"><span class="flex items-center gap-1.5"><Icon name="check" size={12}/>{w.storageOk ? 'Trabajo guardado en este navegador' : 'Guardado no disponible; el trabajo se mantiene en esta sesión'}</span>{w.task && <Button variant="ghost" className="text-[10px]" onClick={w.nextExercise}>Siguiente ejercicio <Icon name="arrow" size={13}/></Button>}<p class="w-full pt-2 text-center text-[9px] text-muted/80">Semántica de conjuntos · Sin filas duplicadas · La base original no se modifica</p></footer>
         </div>

@@ -5,6 +5,8 @@ import { createSession } from '../core/session.js';
 import { reducePlaygroundProjects } from '../core/playground-projects.js';
 import { run } from '../core/engine.js';
 import { SiteHeader } from '../components/SiteHeader.jsx';
+import { Icon } from '../components/ui.jsx';
+import datasets from '../data/datasets.json';
 import { PlaygroundProjects, PlaygroundTables, PlaygroundQuery, PlaygroundResults } from '../components/PlaygroundSections.jsx';
 
 export function PlaygroundPage() {
@@ -18,6 +20,12 @@ export function PlaygroundPage() {
   const work = activeTab.work;
   const dispatch = action => dispatchQueries({ type: 'session', action });
   const [notice, setNotice] = useState(saved.warning ? { kind: 'error', text: saved.warning } : null);
+  const [importNotice, setImportNotice] = useState(null);
+  const [showData, setShowData] = useState(false);
+  const activeImportNotice = importNotice?.projectId === project.id ? importNotice : null;
+  useEffect(() => {
+    if (activeImportNotice) document.getElementById('playground-import-feedback')?.scrollIntoView({ block: 'nearest' });
+  }, [activeImportNotice]);
   useEffect(() => {
     const error = savePlayground(window.localStorage, { projects });
     if (error) setNotice({ kind: 'error', text: error === 'limit' ? 'El trabajo supera 2 MB y no se pudo guardar. Se conserva el último guardado válido.' : 'No se pudo guardar el trabajo en este navegador.' });
@@ -35,6 +43,16 @@ export function PlaygroundPage() {
     dispatchProjects({ type: 'new', name });
     setNotice(null);
     return true;
+  }
+
+  function loadExample() {
+    const names = new Set(projects.projects.map(item => item.name.toLocaleLowerCase()));
+    const title = 'Ejemplo de casas';
+    let name = title;
+    for (let number = 2; names.has(name.toLocaleLowerCase()); number++) name = `${title} ${number}`;
+    dispatchProjects({ type: 'new', name, tables: { Casa: datasets[0].relations.Casa }, source: 'Casa' });
+    setNotice({ kind: 'success', text: 'Se abrió la tabla Casa en un proyecto nuevo. Prueba a filtrar por precio.' });
+    document.getElementById('playground-main')?.focus();
   }
 
   function renameProject(id, name) {
@@ -101,10 +119,16 @@ export function PlaygroundPage() {
       dispatchProjects({ type: 'tables', projectId, tables: next });
       if (!work.source) dispatchProjects({ type: 'query', projectId, action: { type: 'session', action: { type: 'load', session: { ...createSession(accepted[0]), resultVisible: true } } } });
     }
-    setNotice({ kind: rejected.length ? 'error' : 'success', text: [accepted.length && `${accepted.length} ${accepted.length === 1 ? 'tabla cargada' : 'tablas cargadas'}: ${accepted.join(', ')}.`, ...rejected].filter(Boolean).join(' ') });
+    setImportNotice({
+      projectId,
+      kind: rejected.length ? 'error' : 'success',
+      text: [accepted.length && `${accepted.length} ${accepted.length === 1 ? 'tabla cargada' : 'tablas cargadas'}: ${accepted.join(', ')}.`, ...rejected].filter(Boolean).join(' '),
+    });
+    setShowData(true);
   }
 
   function remove(name) {
+    setImportNotice(null);
     const next = { ...tables };
     delete next[name];
     dispatchProjects({ type: 'tables', tables: next });
@@ -139,14 +163,26 @@ export function PlaygroundPage() {
     dispatchProjects({ type: 'mode', mode: next });
   }
 
+  function showResults() {
+    if (!execute() || !window.matchMedia('(width < 768px)').matches) return;
+    requestAnimationFrame(() => {
+      const results = document.getElementById('playground-results');
+      results?.focus({ preventScroll: true });
+      results?.scrollIntoView({ block: 'start' });
+    });
+  }
+
   return <div class="playground-shell">
     <input type="file" accept=".csv,.json,.txt" multiple hidden ref={fileInput} onChange={importFiles}/>
-    <a href="#playground-main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-4">Ir al playground</a>
-    <SiteHeader current="playground" className="playground-toolbar" afterBrand={<><span class="playground-toolbar-divider"/><strong>Playground</strong></>}/>
+    <SiteHeader current="playground" mainId="playground-main" className="workspace-header" afterBrand={<h1 class="site-context">Playground</h1>}/>
     <main id="playground-main" tabIndex={-1} class="playground-workspace">
-      <div class="playground-sidebar"><PlaygroundProjects projects={projects} onCreate={createProject} onSelect={id => { dispatchProjects({ type: 'select', id }); setNotice(null); }} onRename={renameProject} onRemove={removeProject}/><PlaygroundTables tables={tables} source={work.source} onImport={() => fileInput.current?.click()} onSelect={selectTable} onRemove={remove}/></div>
-      <div class="playground-main-pane">
-        <PlaygroundQuery tables={tables} queries={queries} work={work} mode={mode} root={root} stale={stale} error={parsed.error} onAddQuery={addQuery} onSelectQuery={selectQuery} onCloseQuery={closeQuery} onModeChange={changeMode} onUndo={() => dispatch({ type: 'undo' })} onRedo={() => dispatch({ type: 'redo' })} onEdit={expression => dispatch({ type: 'edit', expression })} onExecute={() => execute()} onApply={expression => execute(expression, false)} onImport={() => fileInput.current?.click()}/>
+      <button type="button" class="playground-data-toggle" aria-controls="playground-data" aria-expanded={showData} onClick={() => setShowData(!showData)}>
+        <Icon name="table" size={16}/> Proyectos y tablas
+        <span class="math" aria-hidden="true">{showData ? '▴' : '▾'}</span>
+      </button>
+      <div id="playground-data" class="playground-sidebar" data-open={showData}><PlaygroundProjects projects={projects} onCreate={createProject} onSelect={id => { dispatchProjects({ type: 'select', id }); setNotice(null); }} onRename={renameProject} onRemove={removeProject}/><PlaygroundTables tables={tables} source={work.source} importNotice={activeImportNotice} onImport={() => fileInput.current?.click()} onSelect={selectTable} onRemove={remove}/></div>
+      <div class="playground-main-pane" data-empty={names.length === 0}>
+        <PlaygroundQuery tables={tables} queries={queries} work={work} mode={mode} root={root} stale={stale} error={parsed.error} onAddQuery={addQuery} onSelectQuery={selectQuery} onCloseQuery={closeQuery} onModeChange={changeMode} onUndo={() => dispatch({ type: 'undo' })} onRedo={() => dispatch({ type: 'redo' })} onEdit={expression => dispatch({ type: 'edit', expression })} onExecute={showResults} onApply={expression => execute(expression, false)} onImport={() => fileInput.current?.click()} onLoadExample={loadExample}/>
         <PlaygroundResults work={work} root={root} stale={stale} error={parsed.error} notice={notice}/>
       </div>
     </main>

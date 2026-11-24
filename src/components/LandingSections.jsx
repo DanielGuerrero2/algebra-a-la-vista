@@ -1,17 +1,21 @@
 import { Button } from './ui/button.jsx';
 import { Card, CardContent } from './ui/card.jsx';
 import { Badge } from './ui/badge.jsx';
+import { DataTable } from './DataTable.jsx';
+import { Icon } from './ui.jsx';
 import { VisualGuide } from './VisualGuide.jsx';
 
 export function LandingHero({ exerciseTotal, datasetTotal }) {
   return <section class="landing-hero" aria-labelledby="landing-title">
     <div class="landing-intro">
       <div class="landing-hero-identity">
-        <p class="landing-chapter">01 / EL LABORATORIO ESTÁ ABIERTO</p>
+        <p class="landing-chapter">ÁLGEBRA RELACIONAL INTERACTIVA</p>
         <h1 id="landing-title">De los símbolos<br/>a los <em>resultados.</em></h1>
-        <Badge variant="outline" className="landing-hero-badge"><span class="size-1.5 rounded-full bg-primary" aria-hidden="true"/> Tu espacio de álgebra relacional</Badge>
-        <p class="landing-description">El álgebra relacional se entiende mejor cuando puedes verla. Construye consultas, explora cada operación y descubre qué pasa con tus datos.</p>
-        <p class="landing-note">Sin registro. A tu ritmo. Desde tu navegador.</p>
+        <p class="landing-description">Aprende a filtrar filas, elegir columnas y conectar tablas. Empieza con un ejemplo guiado y observa cómo cambian los datos en cada paso.</p>
+        <div class="landing-hero-actions">
+          <Button asChild className="landing-primary"><a href="#guia">Empezar con la guía <Icon name="book"/></a></Button>
+          <a href="#laboratorio" class="landing-guide-link">Ir a los retos <Icon name="arrow"/></a>
+        </div>
         <div class="landing-facts"><span><strong>{exerciseTotal}</strong> ejercicios guiados</span><span><strong>{datasetTotal}</strong> bases de ejemplo</span></div>
       </div>
       <div class="landing-hero-content"><figure class="landing-illustration"><img src={`${import.meta.env.BASE_URL}assets/brand/brand-icon-cartoon-880.webp`} width="880" height="880" alt="Ilustración de una base de datos verde con dos tablas conectadas por un enlace dorado." fetchPriority="high"/></figure></div>
@@ -19,7 +23,8 @@ export function LandingHero({ exerciseTotal, datasetTotal }) {
   </section>;
 }
 
-export function LandingDemo({ minimum, onMinimumChange, rows }) {
+export function LandingDemo({ minimum, onMinimumChange, expression, result }) {
+  const [beforePrice, afterPrice] = expression.split(String(minimum));
   return <section class="landing-demo-section" aria-labelledby="demo-title">
     <div class="landing-demo-intro">
       <p class="eyebrow">DE LA IDEA A LA CONSULTA</p>
@@ -28,18 +33,18 @@ export function LandingDemo({ minimum, onMinimumChange, rows }) {
       <img class="landing-demo-art" src={`${import.meta.env.BASE_URL}assets/illustrations/ilustracion-delfin-datos-420.webp`} width="420" height="384" alt="" loading="lazy" decoding="async"/>
     </div>
     <Card className="landing-demo">
-      <div class="landing-demo-top"><span>Vista previa del laboratorio</span><Badge variant="secondary">Interactivo</Badge></div>
+      <div class="landing-demo-top"><span class="inline-flex items-center gap-2"><Icon name="code"/> Consulta de ejemplo</span><Badge variant="secondary">Inmobiliaria</Badge></div>
       <CardContent className="landing-demo-body">
-        <div class="landing-demo-label"><span>01 / SELECCIONA</span><span>Base Inmobiliaria</span></div>
-        <h2>Casas con precio mayor a…</h2>
+        <h3>Casas con precio mayor a…</h3>
         <div class="landing-options" role="group" aria-label="Precio mínimo de la demostración">{[1000000, 2000000].map(value => <Button key={value} size="sm" variant={minimum === value ? 'default' : 'outline'} aria-pressed={minimum === value} onClick={() => onMinimumChange(value)}>{value === 1000000 ? '$1 millón' : '$2 millones'}</Button>)}</div>
-        <code class="landing-query">π ciudad, precio<br/>(σ precio &gt; {minimum} (Casa))</code>
-        <div class="landing-demo-label"><span>02 / OBSERVA EL RESULTADO</span><span role="status" aria-live="polite">{rows.length} filas</span></div>
-        <div class="landing-table-wrap"><table class="landing-table"><caption class="sr-only">Ciudades y precios de casas que superan el precio seleccionado</caption><thead><tr><th scope="col">ciudad</th><th scope="col">precio</th></tr></thead><tbody>{rows.map(row => <tr key={`${row.ciudad}:${row.precio}`}><td>{row.ciudad}</td><td>${row.precio.toLocaleString('es-MX')}</td></tr>)}</tbody></table></div>
-        {rows.length === 0 && <p class="landing-demo-hint">Ninguna casa supera este precio. Prueba con $1 millón.</p>}
-        <p class="landing-demo-hint">Prueba otro precio y observa cómo cambia la tabla.</p>
+        <code class="landing-query">{beforePrice}<mark class="landing-query-price">{minimum}</mark>{afterPrice}</code>
+        <div class="landing-demo-label"><strong>Resultado</strong><span role="status">{result.rows.length} {result.rows.length === 1 ? 'fila' : 'filas'}</span></div>
+        <DataTable relation={result} label="Ciudades y precios que superan el precio seleccionado" compact formatCell={(value, column) => column === 'precio' ? '$' + value.toLocaleString('es-MX') : value} emptyMessage="Prueba con un precio menor."/>
+        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <Button asChild className="landing-primary"><a href="#primera-consulta">Haz tu primera consulta <Icon name="arrow"/></a></Button>
+          <p class="text-xs text-muted">Practica el filtro de $1 millón con la tabla Casa ya cargada.</p>
+        </div>
       </CardContent>
-      <div class="landing-demo-bottom"><span aria-hidden="true">↳</span> Los símbolos transforman los datos. Tú ves cómo.</div>
     </Card>
   </section>;
 }
@@ -53,13 +58,14 @@ export function LandingGuide({ data }) {
 
 export function LandingMethod() {
   return <section class="landing-method" aria-label="Cómo funciona el laboratorio">
-    {[['01', 'Construye', 'Elige una tabla y aplica operaciones con el constructor visual o el editor de símbolos.'], ['02', 'Explora', 'Recorre los pasos de tu consulta y observa cómo se transforma cada relación.'], ['03', 'Comprueba', 'Resuelve ejercicios de las cinco bases con pistas para avanzar.']].map(([number, title, description]) => <article key={number}><span class="landing-step">{number}</span><div><h2>{title}</h2><p>{description}</p></div></article>)}
+    {[['code', 'Construye', 'Elige una tabla y aplica operaciones con el constructor visual o el editor de símbolos.'], ['table', 'Explora', 'Recorre los pasos de tu consulta y observa cómo se transforma cada relación.'], ['check', 'Comprueba', 'Resuelve ejercicios de las cinco bases con pistas para avanzar.']].map(([icon, title, description]) => <article key={title}><span class="landing-step"><Icon name={icon}/></span><div><h2>{title}</h2><p>{description}</p></div></article>)}
+    <Button asChild className="landing-method-action"><a href="#laboratorio">Practicar en el laboratorio <Icon name="arrow"/></a></Button>
   </section>;
 }
 
 export function LandingFooter() {
   return <footer class="landing-footer">
     <div class="landing-footer-main"><div class="landing-footer-copy"><p class="landing-footer-eyebrow">ÁLGEBRA A LA VISTA</p><h2>Haz visible lo que<br/>hacen tus consultas.</h2><p>Construye, ejecuta y comprende cada paso con tus propios datos.</p></div><img class="landing-footer-art" src={`${import.meta.env.BASE_URL}assets/illustrations/ilustracion-leon-marino-terminal-400.webp`} width="400" height="267" alt="" loading="lazy" decoding="async"/></div>
-    <div class="landing-footer-bottom"><span>Álgebra a la vista · Aprende, prueba, comprende.</span><nav aria-label="Enlaces del pie de página"><a href="/">Inicio</a><a href="#guia">Guía visual</a><a href="#operaciones">Operaciones</a><a href="#laboratorio">Laboratorio</a><a href="#playground">Playground</a></nav><span>Tu progreso se guarda en este navegador.</span></div>
+    <div class="landing-footer-bottom"><span>Álgebra a la vista · Aprende, prueba, comprende.</span><nav aria-label="Enlaces del pie de página"><a href="#inicio">Inicio</a><a href="#guia">Guía visual</a><a href="#operaciones">Operaciones</a><a href="#laboratorio">Laboratorio</a><a href="#playground">Playground</a></nav><span>Tu progreso se guarda en este navegador.</span></div>
   </footer>;
 }

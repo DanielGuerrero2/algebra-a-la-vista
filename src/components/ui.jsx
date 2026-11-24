@@ -10,6 +10,7 @@ const paths = {
   plus: 'M12 5v14M5 12h14', reset: 'M3 4v6h6M3 10a9 9 0 1 1 1 8',
   edit: 'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L9 17l-4 1 1-4L16.5 3.5Z',
   trash: 'M4 7h16M10 7V4h4v3m4 0-1 13H7L6 7m4 4v5m4-5v5',
+  code: 'm8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18',
   book: 'M3 4h7l2 2 2-2h7v16h-7l-2 2-2-2H3V4Zm9 2v16',
 };
 export function Icon({ name, size = 16, className = '' }) {

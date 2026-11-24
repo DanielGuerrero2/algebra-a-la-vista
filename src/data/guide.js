@@ -4,7 +4,7 @@ export const GUIDE_EXAMPLES = [
     goal: 'Ver la ciudad y el precio de las casas que cuestan más de un millón.',
     join: 'Vendedor ⋈ Ventas',
     steps: [
-      { title: 'Parte de una tabla', expression: 'Casa', text: 'Casa es la relación de entrada. Cada fila es una casa y cada columna describe uno de sus datos.' },
+      { title: 'Parte de una tabla', expression: 'Casa', text: 'Casa es la tabla de origen. En álgebra relacional, a una tabla se le llama relación. Cada fila representa una casa.' },
       { title: 'Filtra las filas', expression: 'σ precio > 1000000 (Casa)', text: 'σ (selección) conserva las casas cuyo precio supera 1000000. Las columnas se mantienen.' },
       { title: 'Elige las columnas', expression: 'π ciudad, precio (σ precio > 1000000 (Casa))', text: 'π (proyección) conserva ciudad y precio del resultado anterior. También elimina filas duplicadas.' },
     ],
@@ -52,7 +52,7 @@ const operationSettings = [
     source: 'Casa', condition: "ciudad = 'Chih'", subset: "ciudad = 'Juarez'",
     join: 'Vendedor ⋈ Ventas',
     division: 'π numVend, numCasa (Ventas) ÷ π numCasa (σ numVend = 3465 (Ventas))',
-    divisionText: 'Busca vendedores relacionados con todas las casas vendidas por Hugo. Aquí, Hugo cumple ambas relaciones.',
+    divisionText: 'La segunda tabla enumera las casas que vendió Hugo. Un vendedor aparece en el resultado si vendió cada una de esas casas.',
   },
   {
     source: 'Productos', condition: 'precio > 2000', subset: 'precio < 1500',

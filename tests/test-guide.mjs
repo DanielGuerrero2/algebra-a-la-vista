@@ -2,9 +2,21 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { run } from '../src/core/engine.js';
+import { build, compare } from '../src/core/lab-model.js';
 import { GUIDE_EXAMPLES, GUIDE_OPERATIONS } from '../src/data/guide.js';
 
 const datasets = JSON.parse(readFileSync(new URL('../src/data/datasets.json', import.meta.url)));
+
+test('la primera consulta permite encontrar las tres casas de más de un millón desde el constructor', () => {
+  const tables = datasets[0].relations;
+  const [source, target] = GUIDE_EXAMPLES[0].steps;
+  const filter = { op: 'select', filters: [{ column: 'precio', operator: '>', value: '1000000' }] };
+  const result = run(build(source.expression, filter, tables), tables);
+  const expected = run(target.expression, tables);
+  assert.deepEqual(result.rows.map(row => row.numCasa), [1027, 1090, 2001]);
+  assert.ok(compare(result, expected).correct);
+  assert.equal(compare(run(source.expression, tables), expected).correct, false);
+});
 const expected = [
   [{ ciudad: 'Chih', precio: 1050000 }, { ciudad: 'Jimenez', precio: 1021000 }, { ciudad: 'Delicias', precio: 1500000 }],
   [{ descripcion: 'Boliler 30 g', precio: 3000 }, { descripcion: 'Calentor Espa¤o', precio: 2530 }],

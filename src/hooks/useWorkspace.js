@@ -92,7 +92,7 @@ export function useWorkspace() {
     const result = compare(run(work.expression, data.relations), run(task.expression, data.relations));
     const { celebrate, completed, explanation } = getCheckOutcome(result.correct, solved, keyFor(location));
     if (result.correct) {
-      setNotice({ kind: 'success', text: '¡Correcto! Tus filas y columnas coinciden con el objetivo.', explanation });
+      setNotice({ source: 'check', kind: 'success', text: '¡Correcto! Tus filas y columnas coinciden con el objetivo.', explanation });
       if (completed) {
         const next = [...new Set([...solved, keyFor(location)])];
         setSolved(next);
@@ -100,7 +100,7 @@ export function useWorkspace() {
       }
     } else {
       const columns = result.missingColumns.length || result.extraColumns.length;
-      setNotice({ kind: 'warning', text: columns
+      setNotice({ source: 'check', kind: 'warning', text: columns
         ? `Revisa las columnas. Faltan: ${result.missingColumns.join(', ') || 'ninguna'}. Sobran: ${result.extraColumns.join(', ') || 'ninguna'}.`
         : `Todavía no coincide: faltan ${result.missing.length} filas y sobran ${result.extra.length}.` });
       setComparison(run(task.expression, data.relations));
