@@ -29,3 +29,13 @@ test('renombrar y eliminar conservan un proyecto activo', () => {
   assert.equal(state.projects.length, 1);
   assert.equal(reducePlaygroundProjects(state, { type: 'remove', id: 1 }), state);
 });
+
+test('un proyecto de ejemplo abre una tabla sin modificar el proyecto actual', () => {
+  const previous = createPlaygroundProjects({ Personas: [{ id: 1 }] });
+  const tables = { Casa: [{ precio: 1050000 }] };
+  const state = reducePlaygroundProjects(previous, { type: 'new', name: 'Ejemplo', tables, source: 'Casa' });
+  const example = state.projects.find(project => project.id === state.activeId);
+  assert.equal(state.projects[0], previous.projects[0]);
+  assert.deepEqual(example.tables, tables);
+  assert.equal(example.queries.tabs[0].work.expression, 'Casa');
+});

@@ -1,4 +1,5 @@
 import { createPlaygroundTabs, reducePlaygroundTabs } from './playground-tabs.js';
+import { createSession } from './session.js';
 
 export function createPlaygroundProjects(tables = {}, queries = createPlaygroundTabs(), mode = 'code') {
   return {
@@ -14,7 +15,10 @@ export function reducePlaygroundProjects(state, action) {
     case 'new': {
       if (!name || state.projects.some(project => project.name.toLocaleLowerCase() === name.toLocaleLowerCase())) return state;
       const id = state.nextId;
-      return { projects: [...state.projects, { id, name, tables: {}, queries: createPlaygroundTabs(), mode: 'code' }], activeId: id, nextId: id + 1 };
+      const tables = action.tables ?? {};
+      const source = Object.hasOwn(tables, action.source) ? action.source : '';
+      const queries = createPlaygroundTabs({ ...createSession(source), resultVisible: !!source });
+      return { projects: [...state.projects, { id, name, tables, queries, mode: source ? 'visual' : 'code' }], activeId: id, nextId: id + 1 };
     }
     case 'select':
       return state.projects.some(project => project.id === action.id) ? { ...state, activeId: action.id } : state;
